@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class ChatClient implements MouseMotionListener, MouseListener, ActionLis
     private JPanel panel;
     private JPanel btnPanel;
     private JButton lineBtn;
+    private JButton ovalBtn;
     private JButton clearBtn;
     private int x, y, width, height;
     private boolean mouseState;
@@ -54,17 +57,21 @@ public class ChatClient implements MouseMotionListener, MouseListener, ActionLis
         
         panel = new JPanel();
         btnPanel = new JPanel();
-        lineBtn = new JButton("자유곡선");
+        lineBtn = new JButton("연필");
+        ovalBtn = new JButton("굵은팬");
         clearBtn = new JButton("초기화");
+        
         mouseState = false;
         
         //버튼페널에 버튼장착
         btnPanel.add(lineBtn);
         btnPanel.add(clearBtn);
+        btnPanel.add(ovalBtn);
         
         //버튼 이벤트 핸들러 장착
         lineBtn.addActionListener(this);
         clearBtn.addActionListener(this);
+        ovalBtn.addActionListener(this);
         
         //각 그리기 도구 이벤트 핸들러 장착
         line.addMouseListener(this);
@@ -144,9 +151,18 @@ public class ChatClient implements MouseMotionListener, MouseListener, ActionLis
         
         if(e.getSource() == lineBtn)
         {
-            //line.setSize(d);
+    
             panel.add(line);
             stateLabel.setText("자유곡선 그리기 모드");
+            line.changePanMode(1);
+            out.println("mode 1");
+        }
+        if(e.getSource() == ovalBtn)
+        {
+        	panel.add(line);
+        	stateLabel.setText("원모양 팬 그리기 모드");
+        	line.changePanMode(2);
+        	out.println("mode 2");
         }
         else if(e.getSource() == clearBtn)
         {
@@ -197,16 +213,11 @@ public class ChatClient implements MouseMotionListener, MouseListener, ActionLis
             else if(input.startsWith("clearpanel")){
             	line.clearElement();
             }
-//            else if(line.startsWith("A new user ")){ // ªı∑ŒøÓ ¿Ø¿˙∞° ¡¯¿‘Ω√ √‚∑¬«œ±‚¿ß«ÿº≠ ªı∑Œ ∏∏µÁ∫Œ∫–¿‘¥œ¥Ÿ.
-//            	 messageArea.append(line.substring(11) + "\n");
-//            }   
-//            
-//            else if (line.startsWith("NAMEACCEPTED")) { 
-//            	textField.setEditable(true);
-//            } 
-//            else if (line.startsWith("MESSAGE")) {  // ∏ﬁºº¡ˆ∏¶ πﬁ¥¬ ∫Œ∫–¿‘¥œ¥Ÿ.
-//                messageArea.append(line.substring(7) + "\n");
-//            }
+            else if(input.startsWith("mode")){
+            	String[] str = input.split(" ");
+            	line.changePanMode(Integer.parseInt(str[1]));
+            	
+            }
             
         }
     }
@@ -223,7 +234,8 @@ class MyShape extends JComponent
 {
     protected int x, y, width, height;
     protected  Shape s;
-    protected static ArrayList<Shape> shapeArray = new ArrayList<Shape>();                                
+    protected static ArrayList<Shape> shapeArray = new ArrayList<Shape>();
+    protected static ArrayList<Shape> shapeArray2 = new ArrayList<Shape>(); 
     public MyShape(){}
     public void DrawShape()    {}
     public void paint(Graphics g){}
@@ -238,6 +250,7 @@ class MyShape extends JComponent
  
 class MyGeneralPathOpen extends MyShape
 {
+	int mode =1;
     int[] Xpoints;
     int[] Ypoints;
     ArrayList<Integer> XpointsList = new ArrayList<Integer>();
@@ -269,14 +282,16 @@ class MyGeneralPathOpen extends MyShape
     }
     
     public void DrawShape()
-    {        
-        GeneralPath g = new GeneralPath();
-        g.moveTo(XpointsList.get(0), YpointsList.get(0));
-        for (int i = 0 ; i < XpointsList.size() ; ++i)
-        {
-            g.lineTo(XpointsList.get(i), YpointsList.get(i));
-        }
-        shapeArray.add(g); // 여기에 모양을 저장해야만 기록이 된다.
+    {   
+    	if(mode == 1){
+	        GeneralPath g = new GeneralPath();
+	        g.moveTo(XpointsList.get(0), YpointsList.get(0));
+	        for (int i = 0 ; i < XpointsList.size() ; ++i)
+	        {
+	            g.lineTo(XpointsList.get(i), YpointsList.get(i));
+	        }
+	        shapeArray.add(g); // 여기에 모양을 저장해야만 기록이 된다.
+    	}
         XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서 그려지게된다.
         YpointsList.removeAll(YpointsList);
     }
@@ -288,16 +303,37 @@ class MyGeneralPathOpen extends MyShape
         
         if( (Xpoints == null) == false )
         {
-            g2.drawPolyline(Xpoints, Ypoints, Xpoints.length);
-            System.out.println(Xpoints.length);
+        	
+        	if(mode == 1){
+        		g2.setStroke(new BasicStroke(2));
+        		g2.setColor(Color.cyan);
+        		g2.drawPolyline(Xpoints, Ypoints, Xpoints.length);
+        	}
+        	else{
+        		s = new Ellipse2D.Float(Xpoints[0], Ypoints[0], 50, 50);
+        		shapeArray2.add(s);
+        		XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서 그려지게된다.
+        	    YpointsList.removeAll(YpointsList);
+//        		g2.setColor(Color.RED);
+//        		for(int i = 0 ; i < Xpoints.length ; i++){
+//        			g2.fillOval(Xpoints[i], Ypoints[i], 50, 50);
+//        		}
+        	}
         }
-        
+        g2.setStroke(new BasicStroke(2));
+        g2.setColor(Color.cyan);
         for(Shape s : shapeArray)
         {
-        	System.out.println("사이즈 :"+shapeArray.size());
-            g2.draw(s);
+        	g2.draw(s);
+//          g2.fill(s);
+        }
+        g2.setColor(Color.red);
+        for(Shape s : shapeArray2)
+        {
+            g2.fill(s);
         }
     }
+    // 이부분은 그리는 사람 이외에 그림을 보는 사람은 이부분을 통해서 그리게된다.
     public void pointXY(int x, int y){
     	 XpointsList.add(x);
          YpointsList.add(y);
@@ -317,11 +353,20 @@ class MyGeneralPathOpen extends MyShape
     
     public void clearElement(){
     	shapeArray.clear();
+    	shapeArray2.clear();
     	XpointsList.clear();
     	YpointsList.clear();
     	Xpoints = null;
     	Ypoints = null;
     	repaint();
+    }
+    public void changePanMode(int inputmode){
+    	mode = inputmode;
+    	System.out.println("mode: "+ mode);
+    	XpointsList.clear();
+    	YpointsList.clear();
+    	Xpoints = null;
+    	Ypoints = null;
     }
 }
  

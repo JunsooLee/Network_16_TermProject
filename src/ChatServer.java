@@ -118,6 +118,16 @@ public class ChatServer {
                             	e.println("clearpanel ");
                     	}
                     }
+                    else if(input.startsWith("mode")){
+                    	String[] str = input.split(" ");
+                    	for ( int c=0; c<lt.size(); c++ ){
+                    		gHm = (HashMap)lt.get(c);
+                            e = (PrintWriter)gHm.get("Client"); 
+                            tempName = (String)gHm.get("name");
+                            if(!name.equals(tempName))
+                            	e.println("mode " + str[1].toString());
+                    	}
+                    }
                 }
             }
             catch (IOException e) {
