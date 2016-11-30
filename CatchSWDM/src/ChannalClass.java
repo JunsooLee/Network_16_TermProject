@@ -1,3 +1,5 @@
+package drawer_druwa;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -53,7 +55,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		this.setLayout(null);
 		this.setSize(800, 625);
 		LeftPanel.setLayout(null);
-		LeftPanel.add(new ProfileImagePanel("image1.png"));
+		LeftPanel.add(new ProfileImagePanel("img/image1.png"));
 		months = new Vector();
 		list = new JList(months);
 		nameList = new ArrayList<String>();
@@ -214,19 +216,21 @@ public class ChannalClass extends JFrame implements ActionListener {
 		JPanel dd = new JPanel();
 		dd.setLayout(new GridLayout(3, 2));
 		jbt1 = new JButton(new ImageIcon(
-				((new ImageIcon("button.png").getImage().getScaledInstance(300, 127, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/gameroomButton.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
 		jbt2 = new JButton(new ImageIcon(
-				((new ImageIcon("button.png").getImage().getScaledInstance(300, 127, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/gameroomButton.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
 		jbt3 = new JButton(new ImageIcon(
-				((new ImageIcon("button.png").getImage().getScaledInstance(300, 127, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/gameroomButton.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
 		jbt4 = new JButton(new ImageIcon(
-				((new ImageIcon("button.png").getImage().getScaledInstance(300, 127, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/gameroomButton.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
 		jbt5 = new JButton(new ImageIcon(
-				((new ImageIcon("button.png").getImage().getScaledInstance(300, 127, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/gameroomButton.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
 
 		jbt6 = new JButton(new ImageIcon(
-				((new ImageIcon("button.png").getImage().getScaledInstance(300, 127, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/gameroomButton.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
 
+		
+		
 		jbt1.addActionListener(this);
 		jbt2.addActionListener(this);
 		jbt3.addActionListener(this);
@@ -643,4 +647,5 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 	}
 
+}
 }
