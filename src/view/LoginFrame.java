@@ -1,7 +1,11 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -19,6 +23,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controller.LoginService;
+import join.Joinview;
  
 public class LoginFrame extends JFrame implements ActionListener{
  
@@ -26,6 +31,7 @@ public class LoginFrame extends JFrame implements ActionListener{
     JTextField loginTextField;
     JPasswordField passwordField;
     JButton bt;
+    JButton bt2;
  
     // 메인
     public static void main(String[] args) {
@@ -48,7 +54,7 @@ public class LoginFrame extends JFrame implements ActionListener{
         
         // 이미지 받아오기
         try {
-            img = ImageIO.read(new File("Drawer Druwa(2).png"));
+            img = ImageIO.read(new File("Drawer Druwa.png"));
         } catch (IOException e) {
             System.out.println("이미지 불러오기 실패");
             System.exit(0);
@@ -61,10 +67,10 @@ public class LoginFrame extends JFrame implements ActionListener{
         // 로그인 필드
         loginTextField = new JTextField(15);
         loginTextField.setBounds(440, 460, 100, 40);
-        layeredPane.add(loginTextField);
         loginTextField.setOpaque(false);
         loginTextField.setForeground(Color.black);
         loginTextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        layeredPane.add(loginTextField);
         // 패스워드
         passwordField = new JPasswordField(15);
         passwordField.setBounds(440, 510, 100, 40);
@@ -74,20 +80,35 @@ public class LoginFrame extends JFrame implements ActionListener{
         layeredPane.add(passwordField);
  
         // 로그인버튼 추가
-        bt = new JButton(new ImageIcon("btLogin_hud.png"));
-        bt.setBounds(580, 480, 104, 48);
+        bt = new JButton(new ImageIcon("Login.png"));
+        bt.setBounds(580, 458, 104, 48);
+        
+        // 회원가입 버튼
+        bt2 = new JButton(new ImageIcon("Join.png"));
+        bt2.setBounds(580, 508, 104, 48);
  
         // 버튼 투명처리
         bt.setBorderPainted(false);
         bt.setFocusPainted(false);
         bt.setContentAreaFilled(false);
         bt.addActionListener(this);
+        
+        bt2.setBorderPainted(false);
+        bt2.setFocusPainted(false);
+        bt2.setContentAreaFilled(false);
+        bt2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Joinview();
+			}
+		});
  
         layeredPane.add(bt);
+        layeredPane.add(bt2);
  
         // 마지막 추가들
         layeredPane.add(panel);
         add(layeredPane);
+        setLocation(200,0);
         setVisible(true);
     }
  
@@ -112,11 +133,10 @@ public class LoginFrame extends JFrame implements ActionListener{
             boolean existLogin = LoginService.loginTest(id, password);
  
             if (existLogin) {
-                // 로그인 성공일 경우
                 JOptionPane.showMessageDialog(null, "로그인 성공");
             } else {
                 // 로그인 실패일 경우
-                JOptionPane.showMessageDialog(null, "로그인 실패");
+                JOptionPane.showMessageDialog(null, "You enter wrong ID or Password");
             }
  
         }
