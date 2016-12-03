@@ -108,7 +108,6 @@ public class ChatServer {
 					String input = in.readLine();
 					//System.out.println(input);
 
-
 					if (input == null) {
 						return;
 					} else if (input.startsWith("message")) {
@@ -203,10 +202,17 @@ public class ChatServer {
 						// server record
 						if (str[2].equals("+")) {
 							if (eachRoomUser[pp] != 0) {
+								String eachRoomNameList="",tmpname="";
+								for (int c = 0; c < eachRoomUserInfo[pp].size(); c++) {
+									gHm = (HashMap) eachRoomUserInfo[pp].get(c);
+									tmpname = (String) gHm.get("name");
+									eachRoomNameList +=tmpname+" ";
+								}
+								eachRoomNameList +=name;
 								for (int c = 0; c < eachRoomUserInfo[pp].size(); c++) {
 									gHm = (HashMap) eachRoomUserInfo[pp].get(c);
 									e = (PrintWriter) gHm.get("Client");
-									e.println("convertUserInfo " + (eachRoomUser[pp] + 1) + " " + name);
+									e.println("convertUserInfo "+ pp + " " + (eachRoomUser[pp] + 1) + " " + eachRoomNameList);
 								}
 							}
 
@@ -229,17 +235,31 @@ public class ChatServer {
 
 						}
 						else {
+
 							String tmpname;
 							for (int i = 0; i < eachRoomUserInfo[pp].size(); i++) {
 								gHm = (HashMap) eachRoomUserInfo[pp].get(i);
 								tmpname = (String) gHm.get("name");
-								if (tmpname.equals(this.name)) {
+								if (tmpname.equals(this.name.toString())) {
 									eachRoomUserInfo[pp].remove(i);
 									break;
 								}
 							}
 							//System.out.println("- 1 pp: " + pp + "and eachRoomUser[pp] : " + eachRoomUser[pp]);
 							eachRoomUser[pp]--;
+							tmpname="";
+							String eachRoomNameList="";
+							for (int c = 0; c < eachRoomUserInfo[pp].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[pp].get(c);
+								tmpname = (String) gHm.get("name");
+								eachRoomNameList +=tmpname+" ";
+							}
+							for (int c = 0; c < eachRoomUserInfo[pp].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[pp].get(c);
+								e = (PrintWriter) gHm.get("Client");
+								e.println("convertUserInfo "+ pp + " " + eachRoomUser[pp] + " " + eachRoomNameList);
+							}
+
 							//System.out.println("- 2 pp: " + pp + "and eachRoomUser[pp] : " + eachRoomUser[pp]);
 
 						}
@@ -258,7 +278,6 @@ public class ChatServer {
 					}
 
 					else if (input.startsWith("redispose")) {
-
 						for (int i = 0; i < 10; i++) {
 							out.println(input);
 						}
@@ -267,14 +286,21 @@ public class ChatServer {
 					////out.println("initialRoom " + room);
 					else if (input.startsWith("initialRoom")) {
 						String[] tmp = input.split(" ");
+						int pp = Integer.parseInt(tmp[1].toString());
 
-						if (eachRoomUser[Integer.parseInt(tmp[1])] == 1) {
-							out.println("setRoom "+ tmp[1] + " 1");
+						if (eachRoomUser[pp] == 1) {
+							out.println("setRoom "+ tmp[1] + " 1 " +name);
 						} else {
-							System.out.println("setRoom "+ tmp[1] +" "+ eachRoomUser[Integer.parseInt(tmp[1])]);
-							out.println("setRoom "+ tmp[1] +" "+ eachRoomUser[Integer.parseInt(tmp[1])]);
+							String eachRoomNameList="",tmpname="";
+							for (int c = 0; c < eachRoomUserInfo[pp].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[pp].get(c);
+								tmpname = (String) gHm.get("name");
+								eachRoomNameList +=tmpname+" ";
+							}
+							out.println("setRoom "+ tmp[1] +" "+ eachRoomUser[Integer.parseInt(tmp[1])]+" " + eachRoomNameList );
 						}
 					}
+
 					else if(input.startsWith("retrans")){
 						System.out.println("retrans :" + input.substring(8));
 						out.println(input.substring(8));

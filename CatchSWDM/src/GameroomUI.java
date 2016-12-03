@@ -35,6 +35,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	public MyGeneralPathOpen line;
 	private JPanel background_panel, title_panel, drawing_panel, chat_panel;
 	private JLabel user1_label, user2_label, user3_label, user4_label;
+	private JLabel user1_name, user2_name, user3_name, user4_name;
 	private JPanel user1_panel, user2_panel, user3_panel, user4_panel;
 	private JPanel pentoolPanel;
 	private JFrame frame;
@@ -50,25 +51,55 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	Socket sc;
 	BufferedReader in;
 	PrintWriter out;
-
+	String []userName = new String[4];
+	String myName;
+	int userCount;
 	public boolean checkexit = false;
 	JButton chkExit;
 
 	private int x, y, width, height;
 	private boolean mouseState;
 
-	public GameroomUI(Socket sc, int room) {
+	public GameroomUI(Socket sc, int room,String myName) {
 		this.sc = sc;
 		this.room = room;
+		this.myName = myName;
 		// 전체 프레임 등록
-		frame = new JFrame();
+		bg = new ImageIcon("img/bg2.png");
+		frame = new JFrame(){
+			public void paintComponent(Graphics g) {
+				g.drawImage(bg.getImage(), 0, 0, 1000, 800, null);
+			}
+		};
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(null);
 
-		lineBtn = new JButton("연필");
-		ovalBtn = new JButton("굵은팬");
-		clearBtn = new JButton("초기화");
-		chkExit = new JButton("나가기 ");
+
+
+		lineBtn = new JButton(); //연필
+		ovalBtn = new JButton(); //굵은 팬
+		clearBtn = new JButton(); //초기화
+		chkExit = new JButton(); //나가기
+
+		lineBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+		ovalBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/bold_pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+		clearBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/reset.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+		chkExit= new JButton(new ImageIcon(
+				((new ImageIcon("img/exit.png").getImage().getScaledInstance(180, 80, java.awt.Image.SCALE_SMOOTH)))));
+
+
+		lineBtn.setBorderPainted(false);
+		ovalBtn.setBorderPainted(false);
+		clearBtn.setBorderPainted(false);
+		chkExit.setBorderPainted(false);
+
+		lineBtn.setContentAreaFilled(false);
+		ovalBtn.setContentAreaFilled(false);
+		clearBtn.setContentAreaFilled(false);
+		chkExit.setContentAreaFilled(false);
 
 		// 버튼 이벤트 핸들러 장착
 		lineBtn.addActionListener(this);
@@ -77,7 +108,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		chkExit.addActionListener(this);
 
 		// 배경 패널 생성
-		bg = new ImageIcon("img/whale.jpg");
+		bg = new ImageIcon("img/bg2.png");
 		background_panel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -85,35 +116,33 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			}
 		};
 		line = new MyGeneralPathOpen();
-		title = new JLabel("Drawer Druwa");
-		d = new ImageIcon("img/d.png");
-		r = new ImageIcon("img/r.png");
-		a = new ImageIcon("img/a.png");
-		w = new ImageIcon("img/w.png");
-		e = new ImageIcon("img/e.png");
-		u = new ImageIcon("img/u.png");
 
-		title_panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				// title_panel.add(title);
-				g.drawImage(d.getImage(), 120, 20, 20, 30, null);
-				g.drawImage(r.getImage(), 145, 20, 20, 30, null);
-				g.drawImage(a.getImage(), 160, 20, 20, 30, null);
-				g.drawImage(w.getImage(), 185, 20, 20, 30, null);
-				g.drawImage(e.getImage(), 200, 20, 20, 30, null);
-				// drawer druwa 이쁜 글씨로 띄우기
-			}
-		};
 
 		chat_panel = new JPanel();
 		chat_panel();
 		drawing_panel = new JPanel();
 
-		user1_label = new SetLabelImg("image1.png");
-		user2_label = new SetLabelImg("image1.png");
-		user3_label = new SetLabelImg("image1.png");
-		user4_label = new SetLabelImg("image1.png");
+		user1_name = new JLabel();
+		user2_name = new JLabel();
+		user3_name = new JLabel();
+		user4_name = new JLabel();
+
+		user1_name.setVisible(false);
+		user2_name.setVisible(false);
+		user3_name.setVisible(false);
+		user4_name.setVisible(false);
+		user1_name.setBounds(88, 295 ,100, 20);
+		user2_name.setBounds(820 ,295 ,100, 20);
+		user3_name.setBounds(88, 550 ,100, 20);
+		user4_name.setBounds(820 ,550 ,100, 20);
+		user1_name.setBackground(Color.orange);
+		user2_name.setBackground(Color.orange);
+		user3_name.setBackground(Color.orange);
+		user4_name.setBackground(Color.orange);
+		user1_name.setOpaque(true);
+		user2_name.setOpaque(true);
+		user3_name.setOpaque(true);
+		user4_name.setOpaque(true);
 
 		user1_panel = new JPanel();
 		user2_panel = new JPanel();
@@ -127,44 +156,28 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		pentoolPanel.add(clearBtn);
 		pentoolPanel.add(ovalBtn);
 
-		// 두께
-		title_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-		title_panel.setLayout(new BorderLayout());
-
-		user1_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-		user1_panel.setLayout(new BorderLayout());
-		user2_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-		user2_panel.setLayout(new BorderLayout());
-		user3_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-		user3_panel.setLayout(new BorderLayout());
-		user4_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-		user4_panel.setLayout(new BorderLayout());
 
 		drawing_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		drawing_panel.setLayout(new BorderLayout());
 
 		// 패널들의 위치 조정
-		title_panel.setBounds(0, 0, 1000, 80);
-		title_panel.setVisible(true);
 
-		user1_panel.setBounds(50, 100, 200, 200);
+
+		user1_panel.setBounds(63, 100, 151, 173);
 		user1_panel.setVisible(true);
-		user2_panel.setBounds(50, 320, 200, 200);
+		user1_panel.setLayout(null);
+		user2_panel.setBounds(793, 100, 151, 173);
 		user2_panel.setVisible(true);
-		user3_panel.setBounds(750, 100, 200, 200);
+		user2_panel.setLayout(null);
+		user3_panel.setBounds(60, 352, 151, 175);
 		user3_panel.setVisible(true);
-		user4_panel.setBounds(750, 320, 200, 200);
+		user3_panel.setLayout(null);
+		user4_panel.setBounds(790, 352, 151, 175);
 		user4_panel.setVisible(true);
+		user4_panel.setLayout(null);
 
-		user1_label.setBounds(50, 100, 200, 200);
-		user1_label.setVisible(false);
-		user2_label.setBounds(50, 320, 200, 200);
-		user2_label.setVisible(false);
-		user3_label.setBounds(750, 100, 200, 200);
-		user3_label.setVisible(false);
-		user4_label.setBounds(750, 320, 200, 200);
-		user4_label.setVisible(false);
-		chkExit.setBounds(750, 550, 200, 50);
+
+		chkExit.setBounds(650, 650, 430, 80);
 
 		// 각 그리기 도구 이벤트 핸들러 장착
 		line.addMouseListener(this);
@@ -178,19 +191,30 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 
 		background_panel.setBounds(0, 0, 1000, 800);
 		background_panel.setVisible(true);
+		background_panel.setLayout(null);
+		//		user1_panel.add(user1_label);
+		//		user2_panel.add(user2_label);
+		//		user3_panel.add(user3_label);
+		//		user4_panel.add(user4_label);
 
-		frame.add(pentoolPanel);
-		frame.add(chat_panel);
-		frame.add(drawing_panel);
-		frame.add(user1_panel);
-		frame.add(user2_panel);
-		frame.add(user3_panel);
-		frame.add(user4_panel);
-		frame.add(title_panel);
+		background_panel.add(user1_name);
+		background_panel.add(user2_name);
+		background_panel.add(user3_name);
+		background_panel.add(user4_name);
+		background_panel.add(pentoolPanel);
+		background_panel.add(chat_panel);
+		background_panel.add(drawing_panel);
+		background_panel.add(chkExit);
+		background_panel.add(user1_panel);
+		background_panel.add(user2_panel);
+		background_panel.add(user3_panel);
+		background_panel.add(user4_panel);
+
 		frame.add(background_panel);
-		frame.add(chkExit);
 		frame.setSize(1000, 800);
 		frame.setVisible(true);
+
+
 		try {
 			startdraw();
 		} catch (IOException e1) {
@@ -209,6 +233,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			String input = in.readLine();
 			System.out.println("두번째 패널: " + input);
 			if (checkexit == true) {
+				System.out.println("끝!");
 				frame.dispose();
 				break;
 			} else {
@@ -219,7 +244,11 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					System.out.println("System:::: " + input);
 					String[] str = input.split(" ");
 					int userc = Integer.parseInt(str[2]);
-					changeUserProfile(userc);
+					userCount = userc;
+					for(int i = 0 ; i < userCount; i++){
+						userName[i] = str[i+3];
+					}
+					changeUserProfile();
 				} else if (input.startsWith("roommsg")) {
 					// System.out.println("들어왔다?? "+ input.substring(8) );
 					messageArea.append(input.substring(8) + "\n");
@@ -238,52 +267,150 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 				}
 				// 유저가 들어왔을때 ㅇㅇ
 				else if (input.startsWith("convertUserInfo")) {
-					String[] tmp = input.split(" "); // first: userCount else :
-					// userName
-					changeUserProfile(2);
+					String[] str = input.split(" ");
+					int userc = Integer.parseInt(str[2]);
+					userCount = userc;
+					System.out.println("userCount  : "+ userCount);
+					for(int i = 0 ; i < userCount; i++){
+						userName[i] = str[i+3];
+					}
+					changeUserProfile();
 				}
 			}
 		}
 	}
 
-	private void changeUserProfile(int urCount) {
-		if (count == 1) {
-			user1_panel.setVisible(false);
+
+
+	private void changeUserProfile() {
+		//		user1_panel.removeAll();
+		//		user2_panel.removeAll();
+		//		user3_panel.removeAll();
+		//		user4_panel.removeAll();
+
+		user1_label = new SetLabelImg("image1.png");
+		user2_label = new SetLabelImg("image1.png");
+		user3_label = new SetLabelImg("image1.png");
+		user4_label = new SetLabelImg("image1.png");
+		user1_label.setBounds(0, 0, 50, 50);
+		user2_label.setBounds(0, 0, 151, 173);
+		user3_label.setBounds(0, 0, 151, 175);
+		user4_label.setBounds(0, 0, 151, 175);
+		if (userCount == 1) {
+			user1_label = new SetLabelImg("image1.png");
+			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
-			user2_panel.setVisible(true);
-			user2_label.setVisible(false);
-			user3_panel.setVisible(true);
-			user3_label.setVisible(false);
-			user4_panel.setVisible(true);
-			user4_label.setVisible(false);
-		} else if (count == 2) {
-			user1_panel.setVisible(false);
-			user1_label.setVisible(true);
+			user1_panel.add(user1_label);
+			user1_panel.revalidate();
+			user1_panel.repaint();
+			user1_panel.setVisible(true);
+
+			user1_name.setText(userName[0]);
+			user1_name.setVisible(true);
+
+
 			user2_panel.setVisible(false);
-			user2_label.setVisible(true);
-			user3_panel.setVisible(true);
-			user3_label.setVisible(false);
-			user4_panel.setVisible(true);
-			user4_label.setVisible(false);
-		} else if (count == 3) {
-			user1_panel.setVisible(false);
-			user1_label.setVisible(true);
-			user2_panel.setVisible(false);
-			user2_label.setVisible(true);
 			user3_panel.setVisible(false);
-			user3_label.setVisible(true);
-			user4_panel.setVisible(true);
-			user4_label.setVisible(false);
-		} else if (count == 4) {
-			user1_panel.setVisible(false);
-			user1_label.setVisible(true);
-			user2_panel.setVisible(false);
-			user2_label.setVisible(true);
-			user3_panel.setVisible(false);
-			user3_label.setVisible(true);
 			user4_panel.setVisible(false);
+			user2_name.setVisible(false);
+			user3_name.setVisible(false);
+			user4_name.setVisible(false);
+
+		} else if (userCount == 2) {
+			user1_label = new SetLabelImg("image1.png");
+			user1_label.setBounds(0, 0, 151, 173);
+			user1_label.setVisible(true);
+			user1_panel.add(user1_label);
+			user1_panel.setVisible(true);
+
+			user1_name.setText(userName[0]);
+			user1_name.setVisible(true);
+
+			user2_label = new SetLabelImg("image1.png");
+			user2_label.setBounds(0, 0, 151, 173);
+			user2_label.setVisible(true);
+			user2_panel.add(user2_label);
+			user2_panel.setVisible(true);
+			user1_panel.repaint();
+			user2_panel.repaint();
+
+			user2_name.setText(userName[1]);
+			user2_name.setVisible(true);
+
+			user3_panel.setVisible(false);
+			user4_panel.setVisible(false);
+			user3_name.setVisible(false);
+			user4_name.setVisible(false);
+
+		} else if (userCount == 3) {
+			user1_label = new SetLabelImg("image1.png");
+			user1_label.setBounds(0, 0, 151, 173);
+			user1_label.setVisible(true);
+			user1_panel.add(user1_label);
+			user1_panel.setVisible(true);
+
+			user1_name.setText(userName[0]);
+			user1_name.setVisible(true);
+
+			user2_label = new SetLabelImg("image1.png");
+			user2_label.setBounds(0, 0, 151, 173);
+			user2_label.setVisible(true);
+			user2_panel.add(user2_label);
+			user2_panel.setVisible(true);
+
+			user2_name.setText(userName[1]);
+			user2_name.setVisible(true);
+
+
+			user3_label = new SetLabelImg("image1.png");
+			user3_label.setBounds(0, 0, 151, 173);
+			user3_label.setVisible(true);
+			user3_panel.add(user3_label);
+			user3_panel.setVisible(true);
+
+			user3_name.setText(userName[2]);
+			user3_name.setVisible(true);
+
+			user4_panel.setVisible(false);
+			user4_name.setVisible(false);
+
+		} else if (userCount == 4) {
+			user1_label = new SetLabelImg("image1.png");
+			user1_label.setBounds(0, 0, 151, 173);
+			user1_label.setVisible(true);
+			user1_panel.add(user1_label);
+			user1_panel.setVisible(true);
+
+			user1_name.setText(userName[0]);
+			user1_name.setVisible(true);
+
+			user2_label = new SetLabelImg("image1.png");
+			user2_label.setBounds(0, 0, 151, 173);
+			user2_label.setVisible(true);
+			user2_panel.add(user2_label);
+			user2_panel.setVisible(true);
+
+			user2_name.setText(userName[1]);
+			user2_name.setVisible(true);
+
+
+			user3_label = new SetLabelImg("image1.png");
+			user3_label.setBounds(0, 0, 151, 173);
+			user3_label.setVisible(true);
+			user3_panel.add(user3_label);
+			user3_panel.setVisible(true);
+			user3_name.setText(userName[2]);
+			user3_name.setVisible(true);
+
+			user4_label = new SetLabelImg("image1.png");
+			user4_label.setBounds(0, 0, 151, 173);
 			user4_label.setVisible(true);
+			user4_panel.add(user4_label);
+			user4_panel.setVisible(true);
+			user4_name.setText(userName[3]);
+			user4_name.setVisible(true);
 		}
+
 
 	}
 

@@ -1,4 +1,3 @@
-package drawer_druwa;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -42,7 +41,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 	JScrollPane jpane2;
 
 	Boolean showframe = false;
-	
+
 	Socket socket;
 	BufferedReader in;
 	PrintWriter out;
@@ -53,27 +52,28 @@ public class ChannalClass extends JFrame implements ActionListener {
 	int[] eachRoomUser = new int[6];
 	String[] eachRoomName = new String[6];
 	int namecount = 0;
-	
+
 	public ChannalClass() {
 		for (int i = 0; i < 6; i++) {
 			eachRoomUser[i] = 0;
 		}
 		this.setLayout(null);
 		this.setSize(800, 625);
-	
+
 		LeftPanel.setLayout(null);
 		LeftPanel.add(new ProfileImagePanel("img/image1.png"));
-		
+
 		LPimg = new ImageIcon("img/bg.jpg");
 		left_img_panel = new JPanel(){
+			@Override
 			public void paintComponent(Graphics g){
 				g.drawImage(LPimg.getImage(),0, 0, 200, 600, null);
 			}
 		};
-		
+
 		left_img_panel.setBounds(0, 0, 200, 600);
 		left_img_panel.setVisible(true);
-		
+
 		months = new Vector();
 		list = new JList(months);
 		nameList = new ArrayList<String>();
@@ -105,7 +105,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		CenterPanel();
 		this.add(CenterPanel);
 		this.add(bg_panel);
-		
+
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -138,26 +138,12 @@ public class ChannalClass extends JFrame implements ActionListener {
 				// messageArea.append("hyuna" + " : " + textField.getText() +
 				// "\n");
 				messageArea.setCaretPosition(messageArea.getText().length());// ∏ﬁºº¡ˆ
-		
+
 				messageArea.setLineWrap(true);
 				textField.setText("");
 			}
 		});
-		// textField.addActionListener(new ActionListener() {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// String tmp = textField.getText();
-		// //messageArea.append(myID+" : "+tmp+"\n");
-		// messageArea.append("hyuna" + " : " + tmp + "\n");
-		// messageArea.setCaretPosition(messageArea.getText().length());//∏ﬁºº¡ˆ
-		// ¿‘∑¬Ω√ Ω∫≈©∑—πŸ «◊ªÛ πÿø° ∂ﬂµµ∑œ «œ¥¬∞Õ.
-		// messageArea.setLineWrap(true);
-		//
-		// //out.println(tmp);
-		// textField.setText("");
-		//
-		// }
-		// });
+
 
 		BottomPanel.setBounds(201, 401, 599, 199);
 		BottomPanel.setBackground(Color.lightGray);
@@ -170,14 +156,15 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 		bgimg = new ImageIcon("img/color_background3.png");
 		bg_panel = new JPanel(){
+			@Override
 			public void paintComponent(Graphics g){
 				g.drawImage(bgimg.getImage(),0, 0, 599, 399, null);
 			}
 		};
-		
+
 		bg_panel.setBounds(201, 0, 599, 399);
 		bg_panel.setVisible(true);
-		
+
 		room1 = new RoomClass();
 		room2 = new RoomClass();
 		room3 = new RoomClass();
@@ -240,7 +227,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		CenterPanel.add(room6);
 		//CenterPanel.setBackground(Color.LIGHT_GRAY);
 		CenterPanel.setOpaque(false);
-		
+
 		JPanel dd = new JPanel();
 		dd.setLayout(new GridLayout(3, 2));
 		jbt1 = new JButton(new ImageIcon(
@@ -263,9 +250,9 @@ public class ChannalClass extends JFrame implements ActionListener {
 		jbt4.setContentAreaFilled(false);
 		jbt5.setContentAreaFilled(false);
 		jbt6.setContentAreaFilled(false);
-		
-		
-		
+
+
+
 		jbt1.addActionListener(this);
 		jbt2.addActionListener(this);
 		jbt3.addActionListener(this);
@@ -294,37 +281,37 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 		if (source == Jbtn1) {
 			if (eachRoomUser[0] != 4) {
-				out.println("change 0 +" + myName);
+				out.println("change 0 + " + myName);
 				//eachRoomUser[0]++;
 				runGame(0);
 			}
 		} else if (source == Jbtn2) {
 			if (eachRoomUser[1] != 4) {
-				out.println("change 1 +" + myName);
+				out.println("change 1 + " + myName);
 				//eachRoomUser[1]++;
 				runGame(1);
 			}
 		} else if (source == Jbtn3) {
 			if (eachRoomUser[2] != 4) {
-				out.println("change 2 +" + myName);
+				out.println("change 2 + " + myName);
 				//eachRoomUser[2]++;
 				runGame(2);
 			}
 		} else if (source == Jbtn4) {
 			if (eachRoomUser[3] != 4) {
-				out.println("change 3 +" + myName);
+				out.println("change 3 + " + myName);
 				//eachRoomUser[3]++;
 				runGame(3);
 			}
 		} else if (source == Jbtn5) {
 			if (eachRoomUser[4] != 4) {
-				out.println("change 4 +" + myName);
+				out.println("change 4 + " + myName);
 				//eachRoomUser[4]++;
 				runGame(4);
 			}
 		} else if (source == Jbtn6) {
 			if (eachRoomUser[5] != 4) {
-				out.println("change 5 +" + myName);
+				out.println("change 5 + " + myName);
 				//eachRoomUser[5]++;
 				runGame(5);
 			}
@@ -332,37 +319,37 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 		else if (source == jbt1) {
 			if (eachRoomUser[0] != 4) {
-				out.println("change 0 +" + myName);
+				out.println("change 0 + " + myName);
 				//eachRoomUser[0]++;
 				runGame(0);
 			}
 		} else if (source == jbt2) {
 			if (eachRoomUser[1] != 4) {
-				out.println("change 1 +" + myName);
+				out.println("change 1 + " + myName);
 				//eachRoomUser[1]++;
 				runGame(1);
 			}
 		} else if (source == jbt3) {
 			if (eachRoomUser[2] != 4) {
-				out.println("change 2 +" + myName);
+				out.println("change 2 + " + myName);
 				//eachRoomUser[2]++;
 				runGame(2);
 			}
 		} else if (source == jbt4) {
 			if (eachRoomUser[3] != 4) {
-				out.println("change 3 +" + myName);
+				out.println("change 3 + " + myName);
 				//eachRoomUser[3]++;
 				runGame(3);
 			}
 		} else if (source == jbt5) {
 			if (eachRoomUser[4] != 4) {
-				out.println("change 4 +" + myName);
+				out.println("change 4 + " + myName);
 				//eachRoomUser[4]++;
 				runGame(4);
 			}
 		} else if (source == jbt6) {
 			if (eachRoomUser[5] != 4) {
-				out.println("change 5 +" + myName);
+				out.println("change 5 + " + myName);
 				//eachRoomUser[5]++;
 				runGame(5);
 			}
@@ -375,7 +362,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 			@Override
 			public void run() {
-				GameroomUI gameroom = new GameroomUI(socket, room);
+				GameroomUI gameroom = new GameroomUI(socket, room , myName);
 			}
 
 		});
