@@ -45,8 +45,7 @@ public class RoomClass extends JPanel {
 		//userLine.setBounds(5, 45, 200, 40);
 		//this.add(userLine);
 		setPanel(userNumber);
-
-		this.setVisible(true);
+		this.repaint();
 	}
 	public void setPanel(int userNumber){
 		JLabel user1,user2,user3,user4;

@@ -206,38 +206,43 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 
 		out.println("initialRoom " + room);
 		while (true) {
-			String input = in.readLine(); // º≠πˆø°º≠ πﬁ¿∫ πÆ¿Âø°º≠ √ππ¯¬∞
-			// ∫Œ∫–¿ª ∫æ¥œ¥Ÿ.
+			String input = in.readLine();
+			System.out.println("두번째 패널: " + input);
 			if (checkexit == true) {
 				frame.dispose();
 				break;
-			}
-			if (input.startsWith("setRoom")) {
-				String[] str = input.split(" ");
-				int userc = Integer.parseInt(str[1]);
-				changeUserProfile(userc);
-			}
+			} else {
+				if (input == null){
 
-			else if (input.startsWith("point")) {
-				String[] str = input.split(" ");
-				line.pointXY(Integer.parseInt(str[1]), Integer.parseInt(str[2]));
+				}
+				else if (input.startsWith("setRoom")) {
+					System.out.println("System:::: " + input);
+					String[] str = input.split(" ");
+					int userc = Integer.parseInt(str[2]);
+					changeUserProfile(userc);
+				} else if (input.startsWith("roommsg")) {
+					// System.out.println("들어왔다?? "+ input.substring(8) );
+					messageArea.append(input.substring(8) + "\n");
+				} else if (input.startsWith("point")) {
+					String[] str = input.split(" ");
+					line.pointXY(Integer.parseInt(str[2]), Integer.parseInt(str[3]));
 
-			} else if (input.startsWith("released")) {
-				line.DrawShape();
-			} else if (input.startsWith("clearpanel")) {
-				line.clearElement();
-			} else if (input.startsWith("mode")) {
-				String[] str = input.split(" ");
-				line.changePanMode(Integer.parseInt(str[1]));
+				} else if (input.startsWith("released")) {
+					line.DrawShape();
+				} else if (input.startsWith("clearpanel")) {
+					line.clearElement();
+				} else if (input.startsWith("mode")) {
+					String[] str = input.split(" ");
+					line.changePanMode(Integer.parseInt(str[2]));
 
+				}
+				// 유저가 들어왔을때 ㅇㅇ
+				else if (input.startsWith("convertUserInfo")) {
+					String[] tmp = input.split(" "); // first: userCount else :
+					// userName
+					changeUserProfile(2);
+				}
 			}
-			// 유저가 들어왔을때 ㅇㅇ
-			else if (input.startsWith("changeUserInfo")) {
-				String[] tmp = input.split(" "); // first: userCount else :
-				// userName
-				changeUserProfile(2);
-			}
-
 		}
 	}
 
@@ -303,14 +308,9 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			public void actionPerformed(ActionEvent e) {
 				String tmp = textField.getText();
 				// messageArea.append(myID+" : "+tmp+"\n");
-				messageArea.append("hyuna" + " : " + tmp + "\n");
+				out.println("roommsg " + room + " " + textField.getText());
 				messageArea.setCaretPosition(messageArea.getText().length());// ∏ﬁºº¡ˆ
-				// ¿‘∑¬Ω√
-				// Ω∫≈©∑—πŸ
-				// «◊ªÛ
-				// πÿø°
-				// ∂ﬂµµ∑œ
-				// «œ¥¬∞Õ.
+
 				messageArea.setLineWrap(true);
 
 				// out.println(tmp);
@@ -326,7 +326,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (mouseState == true) {
-			// System.out.println(e.getButton());
+
 			MyShape drawShape = (MyShape) e.getSource();
 			if (e.getSource() == line) {
 				x = e.getX();
@@ -336,12 +336,12 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			width = e.getX() - x;
 			height = e.getY() - y;
 			drawShape.setDragPaintInfo(x, y, width, height);
-			out.println("point " + x + " " + y);
+			out.println("point " + room + " " + x + " " + y);
 		}
 	}
 
 	public void paintXY() {
-		// System.out.println(e.getButton());
+
 	}
 
 	@Override
@@ -358,7 +358,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		if (e.getButton() == 1) {
 			MyShape drawShape = (MyShape) e.getSource();
 			drawShape.DrawShape();
-			out.println("released");
+			out.println("released " + room + " ");
 		}
 		mouseState = false;
 	}
@@ -388,21 +388,21 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		if (e.getSource() == lineBtn) {
 			drawing_panel.add(line);
 			line.changePanMode(1);
-			out.println("mode 1");
+			out.println("mode " + room + " 1");
 		}
 		if (e.getSource() == ovalBtn) {
 			drawing_panel.add(line);
 
 			line.changePanMode(2);
-			out.println("mode 2");
+			out.println("mode " + room + " 2");
 		} else if (e.getSource() == clearBtn) {
 			line.clearElement();
 			drawing_panel.add(line);
 
-			out.println("clearpanel");
+			out.println("clearpanel " + room);
 		} else if (e.getSource() == chkExit) {
 			checkexit = true;
-			out.println("redispose " + room);
+			out.println("redispose " + room + " ");
 		}
 		drawing_panel.repaint(); // 이 부분이 안되면 절대 초기화가 되지않는다.
 	}
