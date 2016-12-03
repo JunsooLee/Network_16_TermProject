@@ -39,7 +39,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	private JPanel user1_panel, user2_panel, user3_panel, user4_panel;
 	private JPanel pentoolPanel;
 	private JFrame frame;
-	private ImageIcon bg = null, title = null;
+	private ImageIcon bg = null, title = null, pendil = null, bold = null, exit = null, reset = null;
 	static int num;
 	public static int count = 0;
 	int room;
@@ -62,22 +62,44 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		this.room = room;
 		// 전체 프레임 등록
 		frame = new JFrame();
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(null);
 
-		lineBtn = new JButton("연필");
-		ovalBtn = new JButton("굵은팬");
-		clearBtn = new JButton("초기화");
-		chkExit = new JButton("나가기 ");
+		lineBtn = new JButton(); //연필
+		ovalBtn = new JButton(); //굵은 팬
+		clearBtn = new JButton(); //초기화
+		chkExit = new JButton(); //나가기
+		
+		lineBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+		ovalBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/bold_pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+		clearBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/reset.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+		chkExit= new JButton(new ImageIcon(
+				((new ImageIcon("img/exit.png").getImage().getScaledInstance(180, 80, java.awt.Image.SCALE_SMOOTH)))));
+
+		
+		lineBtn.setBorderPainted(false);
+		ovalBtn.setBorderPainted(false);
+		clearBtn.setBorderPainted(false);
+		chkExit.setBorderPainted(false);
+		
+		lineBtn.setContentAreaFilled(false);
+		ovalBtn.setContentAreaFilled(false);
+		clearBtn.setContentAreaFilled(false);
+		chkExit.setContentAreaFilled(false);
+		
 
 		// 버튼 이벤트 핸들러 장착
 		lineBtn.addActionListener(this);
 		clearBtn.addActionListener(this);
 		ovalBtn.addActionListener(this);
 		chkExit.addActionListener(this);
-
+		
+	
+		
 		// 배경 패널 생성
-		bg = new ImageIcon("img/bg.png");
+		bg = new ImageIcon("img/bg2.png");
 		background_panel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -85,16 +107,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			}
 		};
 		line = new MyGeneralPathOpen();
-	//	title = new ImageIcon("img/title.png");
-
-		/*title_panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				g.drawImage(title.getImage(), 200, 0, 600, 50, null);
-				// drawer druwa 이쁜 글씨로 띄우기
-			}
-		};*/
-
+		
 		chat_panel = new JPanel();
 		chat_panel();
 		drawing_panel = new JPanel();
@@ -109,6 +122,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user3_panel = new JPanel();
 		user4_panel = new JPanel();
 
+		
+		
 		pentoolPanel = new JPanel();
 		pentoolPanel.setBounds(300, 430, 400, 50);
 		pentoolPanel.setBackground(Color.white);
@@ -156,7 +171,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		//user3_label.setVisible(false);
 		//user4_label.setBounds(750, 320, 200, 200);
 		//user4_label.setVisible(false);
-		chkExit.setBounds(750, 650, 200, 50);
+		chkExit.setBounds(650, 650, 430, 80);
 
 		// 각 그리기 도구 이벤트 핸들러 장착
 		line.addMouseListener(this);
@@ -179,8 +194,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		frame.add(user3_panel);
 		frame.add(user4_panel);
 		//frame.add(title_panel);
-		frame.add(background_panel);
 		frame.add(chkExit);
+		frame.add(background_panel);
 		frame.setSize(1000, 800);
 		frame.setVisible(true);
 		try {
