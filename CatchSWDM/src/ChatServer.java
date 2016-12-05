@@ -244,7 +244,7 @@ public class ChatServer {
 								e = (PrintWriter) gHm.get("Client");
 								int a = (int) (Math.random()*5);
 								questionSolution[tmproom] = questionList[a];
-								e.println("getAnswer " +tmproom + " "+questionList[a]);
+								e.println("getAnswer " +tmproom + " "+questionList[a] + " "+ (tempquizcount+1));
 							}
 						}
 
@@ -296,7 +296,7 @@ public class ChatServer {
 							e = (PrintWriter) gHm.get("Client");
 							int a = (int) (Math.random()*5);
 							questionSolution[tmproom] = questionList[a];
-							e.println("getAnswer " +tmproom + " "+questionList[a]);
+							e.println("getAnswer " +tmproom + " "+questionList[a] + " " +(tempquizcount+1) );
 						}
 					}
 					else if(input.startsWith("RequestGameStart")){
@@ -330,7 +330,7 @@ public class ChatServer {
 									e = (PrintWriter) gHm.get("Client");
 									int a = (int) (Math.random()*5);
 									questionSolution[tmproom] = questionList[a];
-									e.println("getAnswer " +tmproom + " "+questionList[a]);
+									e.println("getAnswer " +tmproom + " "+questionList[a] + " 0");
 								}
 							}
 							else{

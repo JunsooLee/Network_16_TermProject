@@ -449,6 +449,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 					//System.out.println(eachRoomUser[0] +" "+ eachRoomUser[1]+ " "+eachRoomUser[2] + " "+eachRoomUser[3]  + " "+eachRoomUser[4]  + " "+eachRoomUser[5]);
 					out.println("change "+Integer.parseInt(tmp[1])+" -");
 					showframe = true;
+					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				}
 			} else if (input.startsWith("alluser")) {
 				input = input.trim();

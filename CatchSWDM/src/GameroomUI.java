@@ -44,7 +44,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	private JLabel title;
 	private ImageIcon bg = null;
 	int[] eachUserPoint = new int[4];
-	boolean gameState = false;
+	boolean gameState = false , checkNextQize = false , checkGetAnswer = false;
 	boolean stakeHolder = false;
 	static String timerBuffer; // 04:11:15 등의 경과 시간 문자열이 저장될 버퍼 정의
 	static int oldTime; // 타이머가 ON 되었을 때의 시각을 기억하고 있는 변수
@@ -284,14 +284,19 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					line.changePanMode(Integer.parseInt(str[2]));
 
 				}else if(input.startsWith("getAnswer")){
+					//checkGetAnswer
 					String[] str = input.split(" ");
-					System.out.println("fffff : "+str[2] );
+					QUIZCOUNT = Integer.parseInt(str[3]);
 					stakeHolder = true;
+
+					//System.out.println(myName +" 문제 그리고 번호  :" + str[2] + " "+(QUIZCOUNT+1) );
 					solutionLb.setText((QUIZCOUNT+1) +"ST : " + str[2]);
 					solutionLb.repaint();
-					//TODO Label set
+
 				}
 				else if (input.startsWith("convertUserInfo")) {
+
+
 					String[] str = input.split(" ");
 					int userc = Integer.parseInt(str[2]);
 					userCount = userc;
@@ -314,6 +319,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					}
 
 				}else if (input.startsWith("GameStart")) {
+
 					//System.out.println("게임 시작!");
 					startBtn.setVisible(false);
 					solutionLb.setVisible(true);
@@ -339,7 +345,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 									e.printStackTrace();
 								}
 								timeCount = stopwatch();
-								if(timeCount > 5){
+								if(timeCount > 10){
 									if(stakeHolder){
 										stakeHolder =false;
 										out.println("timeOut " + room + " "+ QUIZCOUNT);
@@ -363,20 +369,28 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 							break;
 						}
 					}
-					for(int i = 0 ; i < userCount ; i++ ){
-						if(userName[i].equals(this.myName)){
-							eachUserPoint[i] += 30;
-							break;
-						}
+
+
+
+					int pp = QUIZCOUNT % userCount;
+					eachUserPoint[pp] += 30;
+
+					System.out.println("---------------");
+					System.out.println("맞춘유저 : "+ str[2] + "지금유저:" +myName );
+					for(int i = 0 ; i < 4 ; i++){
+						System.out.println("유저 "+ (i+1) + " : " + eachUserPoint[i] );
 					}
 					out.println("Restart "+room + " " + QUIZCOUNT );
 					System.out.println("실행됌  :" +myName);
+					stakeHolder =false;
 					solutionLb.setText("");
 					solutionLb.repaint();
 				}
 
 				else if(input.startsWith("nextQuiz")){
 					//stakeHolder
+
+					//checkNextQize
 					String[] str = input.split(" ");
 					QUIZCOUNT = Integer.parseInt(str[2]);
 					if(QUIZCOUNT % userCount == 0){
@@ -414,7 +428,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 									e.printStackTrace();
 								}
 								timeCount = stopwatch();
-								if(timeCount > 5){
+								if(timeCount > 10){
 									if(stakeHolder){
 										stakeHolder=false;
 										out.println("timeOut " + room + " "+ QUIZCOUNT);
@@ -425,6 +439,10 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 						}
 					});
 					t.start();
+					if(!stakeHolder){
+						solutionLb.setText("");
+						solutionLb.repaint();
+					}
 
 				}
 				else if(input.startsWith("gameResult")){
@@ -439,7 +457,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					QUIZCOUNT= 0;
 
 					for(int i = 0 ; i < 4 ; i++){
-						System.out.println("유저 "+i+1 + " : " + eachUserPoint[i] );
+						System.out.println("유저 "+ (i+1) + " : " + eachUserPoint[i] );
 						eachUserPoint[i] = 0;
 					}
 
@@ -711,23 +729,31 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		drawing_panel.removeAll();
 
 		if (e.getSource() == lineBtn) {
-			drawing_panel.add(line);
-			line.changePanMode(1);
-			out.println("mode " + room + " 1");
+			if(stakeHolder){
+				drawing_panel.add(line);
+				line.changePanMode(1);
+				out.println("mode " + room + " 1");
+			}
 		}
 		if (e.getSource() == ovalBtn) {
-			drawing_panel.add(line);
-
-			line.changePanMode(2);
-			out.println("mode " + room + " 2");
+			if(stakeHolder){
+				drawing_panel.add(line);
+				line.changePanMode(2);
+				out.println("mode " + room + " 2");
+			}
 		} else if (e.getSource() == clearBtn) {
-			line.clearElement();
-			drawing_panel.add(line);
+			if(stakeHolder){
+				line.clearElement();
+				drawing_panel.add(line);
 
-			out.println("clearpanel " + room);
+				out.println("clearpanel " + room);
+			}
+
 		} else if (e.getSource() == chkExit) {
-			checkexit = true;
-			out.println("redispose " + room + " ");
+			if(!gameState){
+				checkexit = true;
+				out.println("redispose " + room + " ");
+			}
 		}
 		else if(e.getSource() == startBtn){
 			if(userCount != 1)
