@@ -428,7 +428,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			} else if (input.startsWith("change")) {
 				//System.out.println(myName+" change: "+eachRoomUser[0] +" "+ eachRoomUser[1]+ " "+eachRoomUser[2] + " "+eachRoomUser[3]  + " "+eachRoomUser[4]  + " "+eachRoomUser[5]);
 
-				System.out.println(input);
+				//System.out.println(input);
 				String[] str = input.split(" ");
 				roomCheck(Integer.parseInt(str[1]));
 			}

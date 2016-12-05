@@ -12,15 +12,22 @@ public class ChatServer {
 	private static final int PORT = 9001;
 	private static HashMap writers;
 	private static ArrayList lt = new ArrayList();
-	private static int[] eachRoomUser = new int[6];
-	private static ArrayList[] eachRoomUserInfo = new ArrayList[6];
+	private static int[] eachRoomUser = new int[6]; // 각 방의 사람
+	private static int[] checkGameStart = new int[6]; // 각 방에서 사람들의 ready상
+	private static int[] quizCount = new int[6];
+	private static int[] restart = new int[6];
+	private static ArrayList[] eachRoomUserInfo = new ArrayList[6]; // 각 방의 유저 정보
+	private static String[]  questionSolution = new String[6];
 
+	private static String[]  questionList = {"socket"  , "printf","scanf", "thread","process", "Database"}; // 문제
 	public static void main(String[] args) throws Exception {
 		System.out.println("The chat server is running.");
 		ServerSocket listener = new ServerSocket(PORT);
 		for (int i = 0; i < 6; i++) {
 			eachRoomUserInfo[i] = new ArrayList();
 			eachRoomUser[i] = 0;
+			checkGameStart[i] =0;
+			restart[i] =0;
 		}
 		try {
 			while (true) {
@@ -123,12 +130,39 @@ public class ChatServer {
 						String[] str = input.split(" ");
 						int tmproom = Integer.parseInt(str[1]);
 
-						for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
-							gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
-							e = (PrintWriter) gHm.get("Client");
-							e.println("roommsg " +name + " : " + input.substring(10));
+						if(str[2].equals("1")){
+							for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+								e = (PrintWriter) gHm.get("Client");
+								e.println("roommsg " +name + " : " + input.substring(12));
+							}
+						}
+						else if(str[2].equals("2")){
+							for(int i = 0 ; i < 4 ; i++){
+								System.out.println( i + " 정답인 부분 : " +questionSolution[i]);
+							}
+							System.out.println("출력하는 부분 : " + input + " 정답인 부분 : " +questionSolution[tmproom]);
+							if(!questionSolution[tmproom].equals(input.substring(12))){
+								for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+									gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+									e = (PrintWriter) gHm.get("Client");
+									e.println("roommsg " +name + " : " + input.substring(12));
+
+								}
+							}
+							else{
+								for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+									gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+									e = (PrintWriter) gHm.get("Client");
+									e.println("collect " + tmproom + " " +name);
+								}
+							}
+
 						}
 
+					}
+					else if(input.startsWith("collect")){
+						out.println(input);
 					}
 
 					//out.println("point "+ room +" " + x + " " + y);
@@ -174,8 +208,47 @@ public class ChatServer {
 						}
 
 
-					}
+					}//out.println("Restart "+room );
+					else if (input.startsWith("Restart")) {
+						String[] str = input.split(" ");
+						int tmproom = Integer.parseInt(str[1]);
+						int tempquizcount = Integer.parseInt(str[2]);
 
+						restart[tmproom]++;
+						if(restart[tmproom] == eachRoomUser[tmproom]){
+							restart[tmproom] = 0;
+
+							if(tempquizcount +1 ==  quizCount[tmproom]){
+								//gameResult
+								for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+									gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+									e = (PrintWriter) gHm.get("Client");
+									e.println("clearpanel "+tmproom);
+									e.println("gameResult " +tmproom);
+
+								}
+								checkGameStart[tmproom] = 0;
+								quizCount[tmproom] = 0;
+
+							}
+							else{
+								for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+									gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+									e = (PrintWriter) gHm.get("Client");
+									e.println("nextQuiz " +tmproom + " "+ (tempquizcount+1));
+									e.println("clearpanel "+tmproom);
+								}
+
+
+								gHm = (HashMap) eachRoomUserInfo[tmproom].get((tempquizcount+1)%eachRoomUser[tmproom]);
+								e = (PrintWriter) gHm.get("Client");
+								int a = (int) (Math.random()*5);
+								questionSolution[tmproom] = questionList[a];
+								e.println("getAnswer " +tmproom + " "+questionList[a]);
+							}
+						}
+
+					}
 					//out.println("mode "+ room +" 1");
 					else if (input.startsWith("mode")) {
 						String[] str = input.split(" ");
@@ -190,7 +263,81 @@ public class ChatServer {
 						}
 
 					}
+					// out.println("timeOut " + room + " "+ QUIZCOUNT);
+					else if(input.startsWith("timeOut")){
+						String[] str = input.split(" ");
+						int tmproom = Integer.parseInt(str[1]);
+						int tempquizcount = Integer.parseInt(str[2]);
+						//nextQuiz
+						System.out.println("tempquizcount : " + tempquizcount + " quizCount[tmproom] : " +quizCount[tmproom]);
+						if(tempquizcount +1 ==  quizCount[tmproom]){
+							//gameResult
+							for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+								e = (PrintWriter) gHm.get("Client");
+								e.println("clearpanel "+tmproom);
+								e.println("gameResult " +tmproom);
 
+							}
+							checkGameStart[tmproom] = 0;
+							quizCount[tmproom] = 0;
+
+						}
+						else{
+							for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+								e = (PrintWriter) gHm.get("Client");
+								e.println("nextQuiz " +tmproom + " "+ (tempquizcount+1));
+								e.println("clearpanel "+tmproom);
+							}
+
+
+							gHm = (HashMap) eachRoomUserInfo[tmproom].get((tempquizcount+1)%eachRoomUser[tmproom]);
+							e = (PrintWriter) gHm.get("Client");
+							int a = (int) (Math.random()*5);
+							questionSolution[tmproom] = questionList[a];
+							e.println("getAnswer " +tmproom + " "+questionList[a]);
+						}
+					}
+					else if(input.startsWith("RequestGameStart")){
+						String[] str = input.split(" ");
+						int tmproom = Integer.parseInt(str[1]);
+
+						if(checkGameStart[tmproom] == 0){
+							checkGameStart[tmproom]++;
+							for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+								gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+								e = (PrintWriter) gHm.get("Client");
+								tempName = (String) gHm.get("name");
+								if (!name.equals(tempName))
+									e.println("RequestGameStart " +tmproom + " ");
+							}
+						}
+						else{
+							if(str[2].equals("1")){
+								checkGameStart[tmproom]++;
+
+								//유저가 전부 동의 했다
+								if( checkGameStart[tmproom] == eachRoomUser[tmproom]){
+									for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+										gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+										e = (PrintWriter) gHm.get("Client");
+										e.println("GameStart " +tmproom + " ");
+									}
+									quizCount[tmproom] = 2 * eachRoomUser[tmproom];
+
+									gHm = (HashMap) eachRoomUserInfo[tmproom].get(0);
+									e = (PrintWriter) gHm.get("Client");
+									int a = (int) (Math.random()*5);
+									questionSolution[tmproom] = questionList[a];
+									e.println("getAnswer " +tmproom + " "+questionList[a]);
+								}
+							}
+							else{
+								checkGameStart[tmproom] = 0;
+							}
+						}
+					}
 
 
 
@@ -302,7 +449,7 @@ public class ChatServer {
 					}
 
 					else if(input.startsWith("retrans")){
-						System.out.println("retrans :" + input.substring(8));
+						// System.out.println("retrans :" + input.substring(8));
 						out.println(input.substring(8));
 					}
 				}

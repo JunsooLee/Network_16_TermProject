@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -37,14 +38,21 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	private JLabel user1_label, user2_label, user3_label, user4_label;
 	private JLabel user1_name, user2_name, user3_name, user4_name;
 	private JPanel user1_panel, user2_panel, user3_panel, user4_panel;
+	private JTextField solutionLb;
 	private JPanel pentoolPanel;
 	private JFrame frame;
 	private JLabel title;
-	private ImageIcon bg = null, d = null, r = null, w = null, e = null, a = null, u = null;
+	private ImageIcon bg = null;
+	int[] eachUserPoint = new int[4];
+	boolean gameState = false;
+	boolean stakeHolder = false;
+	static String timerBuffer; // 04:11:15 등의 경과 시간 문자열이 저장될 버퍼 정의
+	static int oldTime; // 타이머가 ON 되었을 때의 시각을 기억하고 있는 변수
+	int QUIZCOUNT = 0;
 	static int num;
 	public static int count = 0;
 	int room;
-	JButton lineBtn, ovalBtn, clearBtn;
+	JButton lineBtn, ovalBtn, clearBtn,startBtn;
 	private JTextField textField = new JTextField();
 	private JTextArea messageArea;
 	JScrollPane jpane2;
@@ -56,10 +64,10 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	int userCount;
 	public boolean checkexit = false;
 	JButton chkExit;
-
 	private int x, y, width, height;
 	private boolean mouseState;
 
+	Thread t;
 	public GameroomUI(Socket sc, int room,String myName) {
 		this.sc = sc;
 		this.room = room;
@@ -80,6 +88,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		ovalBtn = new JButton(); //굵은 팬
 		clearBtn = new JButton(); //초기화
 		chkExit = new JButton(); //나가기
+		startBtn = new JButton("START");
 
 		lineBtn = new JButton(new ImageIcon(
 				((new ImageIcon("img/pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
@@ -106,6 +115,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		clearBtn.addActionListener(this);
 		ovalBtn.addActionListener(this);
 		chkExit.addActionListener(this);
+		startBtn.addActionListener(this);
 
 		// 배경 패널 생성
 		bg = new ImageIcon("img/bg2.png");
@@ -126,6 +136,11 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user2_name = new JLabel();
 		user3_name = new JLabel();
 		user4_name = new JLabel();
+		solutionLb = new JTextField();
+		solutionLb.setVisible(false);
+		solutionLb.setEditable(false);
+		textField.setEditable(true);
+		solutionLb.setBackground(Color.white);
 
 		user1_name.setVisible(false);
 		user2_name.setVisible(false);
@@ -135,6 +150,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user2_name.setBounds(820 ,295 ,100, 20);
 		user3_name.setBounds(88, 550 ,100, 20);
 		user4_name.setBounds(820 ,550 ,100, 20);
+		solutionLb.setBounds(10 ,10 , 100, 20);
 		user1_name.setBackground(Color.orange);
 		user2_name.setBackground(Color.orange);
 		user3_name.setBackground(Color.orange);
@@ -178,6 +194,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 
 
 		chkExit.setBounds(650, 650, 430, 80);
+		startBtn.setBounds(790, 550, 150, 80);
 
 		// 각 그리기 도구 이벤트 핸들러 장착
 		line.addMouseListener(this);
@@ -197,6 +214,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		//		user3_panel.add(user3_label);
 		//		user4_panel.add(user4_label);
 
+		background_panel.add(solutionLb);
+		background_panel.add(startBtn);
 		background_panel.add(user1_name);
 		background_panel.add(user2_name);
 		background_panel.add(user3_name);
@@ -231,9 +250,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		out.println("initialRoom " + room);
 		while (true) {
 			String input = in.readLine();
-			System.out.println("두번째 패널: " + input);
+			//System.out.println("두번째 패널: " + input);
 			if (checkexit == true) {
-				System.out.println("끝!");
 				frame.dispose();
 				break;
 			} else {
@@ -241,7 +259,6 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 
 				}
 				else if (input.startsWith("setRoom")) {
-					System.out.println("System:::: " + input);
 					String[] str = input.split(" ");
 					int userc = Integer.parseInt(str[2]);
 					userCount = userc;
@@ -260,12 +277,20 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					line.DrawShape();
 				} else if (input.startsWith("clearpanel")) {
 					line.clearElement();
+					drawing_panel.add(line);
+					drawing_panel.repaint();
 				} else if (input.startsWith("mode")) {
 					String[] str = input.split(" ");
 					line.changePanMode(Integer.parseInt(str[2]));
 
+				}else if(input.startsWith("getAnswer")){
+					String[] str = input.split(" ");
+					System.out.println("fffff : "+str[2] );
+					stakeHolder = true;
+					solutionLb.setText((QUIZCOUNT+1) +"ST : " + str[2]);
+					solutionLb.repaint();
+					//TODO Label set
 				}
-				// 유저가 들어왔을때 ㅇㅇ
 				else if (input.startsWith("convertUserInfo")) {
 					String[] str = input.split(" ");
 					int userc = Integer.parseInt(str[2]);
@@ -275,13 +300,171 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 						userName[i] = str[i+3];
 					}
 					changeUserProfile();
+				}else if (input.startsWith("RequestGameStart")) {
+					int n= JOptionPane.showConfirmDialog(
+							frame,
+							"Do you want play a game?",
+							"Question",
+							JOptionPane.YES_NO_OPTION);
+					if( n == 0){
+						out.println("RequestGameStart "+ room + " 1");
+					}
+					else{
+						out.println("RequestGameStart "+ room + " 2");
+					}
+
+				}else if (input.startsWith("GameStart")) {
+					//System.out.println("게임 시작!");
+					startBtn.setVisible(false);
+					solutionLb.setVisible(true);
+					gameState = true;
+					user1_name.setBackground(Color.RED);
+					QUIZCOUNT = 0;
+
+					for(int i = 0 ; i < 4 ; i ++){
+						eachUserPoint[i] =0;
+					}
+
+					t = new Thread(new Runnable() {
+						int timeCount;
+						@Override
+						public void run()
+						{
+							oldTime = (int) System.currentTimeMillis() / 1000;
+							while(true){
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								timeCount = stopwatch();
+								if(timeCount > 5){
+									if(stakeHolder){
+										stakeHolder =false;
+										out.println("timeOut " + room + " "+ QUIZCOUNT);
+									}
+
+									break;
+								}
+							}
+						}
+					});
+					t.start();
+				}
+				//e.println("collect " + tmproom + " " +name);
+				else if(input.startsWith("collect")){
+					String[] str = input.split(" ");
+					t.stop();
+					//t.destroy();
+					for(int i = 0 ; i < userCount ; i++ ){
+						if(userName[i].equals(str[2])){
+							eachUserPoint[i] += 50;
+							break;
+						}
+					}
+					for(int i = 0 ; i < userCount ; i++ ){
+						if(userName[i].equals(this.myName)){
+							eachUserPoint[i] += 30;
+							break;
+						}
+					}
+					out.println("Restart "+room + " " + QUIZCOUNT );
+					System.out.println("실행됌  :" +myName);
+					solutionLb.setText("");
+					solutionLb.repaint();
+				}
+
+				else if(input.startsWith("nextQuiz")){
+					//stakeHolder
+					String[] str = input.split(" ");
+					QUIZCOUNT = Integer.parseInt(str[2]);
+					if(QUIZCOUNT % userCount == 0){
+						user1_name.setBackground(Color.RED);
+						user2_name.setBackground(Color.ORANGE);
+						user3_name.setBackground(Color.ORANGE);
+						user4_name.setBackground(Color.ORANGE);
+					}else if(QUIZCOUNT % userCount == 1){
+						user1_name.setBackground(Color.ORANGE);
+						user2_name.setBackground(Color.RED);
+						user3_name.setBackground(Color.ORANGE);
+						user4_name.setBackground(Color.ORANGE);
+					}else if(QUIZCOUNT % userCount == 2){
+						user1_name.setBackground(Color.ORANGE);
+						user2_name.setBackground(Color.ORANGE);
+						user3_name.setBackground(Color.RED);
+						user4_name.setBackground(Color.ORANGE);
+					}else if(QUIZCOUNT % userCount == 3){
+						user1_name.setBackground(Color.ORANGE);
+						user2_name.setBackground(Color.ORANGE);
+						user3_name.setBackground(Color.ORANGE);
+						user4_name.setBackground(Color.RED);
+					}
+					t = new Thread(new Runnable() {
+						int timeCount;
+						@Override
+						public void run()
+						{
+							oldTime = (int) System.currentTimeMillis() / 1000;
+							while(true){
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								timeCount = stopwatch();
+								if(timeCount > 5){
+									if(stakeHolder){
+										stakeHolder=false;
+										out.println("timeOut " + room + " "+ QUIZCOUNT);
+									}
+									break;
+								}
+							}
+						}
+					});
+					t.start();
+
+				}
+				else if(input.startsWith("gameResult")){
+					user1_name.setBackground(Color.ORANGE);
+					user2_name.setBackground(Color.ORANGE);
+					user3_name.setBackground(Color.ORANGE);
+					user4_name.setBackground(Color.ORANGE);
+					gameState = false;
+					stakeHolder = false;
+					solutionLb.setVisible(false);
+					startBtn.setVisible(true);
+					QUIZCOUNT= 0;
+
+					for(int i = 0 ; i < 4 ; i++){
+						System.out.println("유저 "+i+1 + " : " + eachUserPoint[i] );
+						eachUserPoint[i] = 0;
+					}
+
 				}
 			}
 		}
 	}
 
 
+	public static int stopwatch() {
+		secToHHMMSS(  ((int) System.currentTimeMillis() / 1000) - oldTime  );
+		return (int) System.currentTimeMillis() / 1000 - oldTime;
+	}
 
+	// 정수로 된 시간을 초단위(sec)로 입력 받아, "04:11:15" 등의 형식의 문자열로 시분초를 저장
+	public static String secToHHMMSS(int secs) {
+		int hour, min, sec;
+
+		sec  = secs % 60;
+		min  = secs / 60 % 60;
+		hour = secs / 3600;
+
+		timerBuffer = String.format("%02d:%02d:%02d", hour, min, sec);
+		return timerBuffer;
+	}
 	private void changeUserProfile() {
 		//		user1_panel.removeAll();
 		//		user2_panel.removeAll();
@@ -435,7 +618,12 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			public void actionPerformed(ActionEvent e) {
 				String tmp = textField.getText();
 				// messageArea.append(myID+" : "+tmp+"\n");
-				out.println("roommsg " + room + " " + textField.getText());
+				if(gameState == false)
+					out.println("roommsg " + room + " 1 " + textField.getText());
+				else{
+					if(!stakeHolder)
+						out.println("roommsg " + room + " 2 " + textField.getText());
+				}
 				messageArea.setCaretPosition(messageArea.getText().length());// ∏ﬁºº¡ˆ
 
 				messageArea.setLineWrap(true);
@@ -459,24 +647,34 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 				x = e.getX();
 				y = e.getY();
 				drawShape.setDragPaintInfo(x, y, width, height);
+			}else{
+				width = e.getX() - x;
+				height = e.getY() - y;
+				drawShape.setDragPaintInfo(x, y, width, height);
 			}
-			width = e.getX() - x;
-			height = e.getY() - y;
-			drawShape.setDragPaintInfo(x, y, width, height);
 			out.println("point " + room + " " + x + " " + y);
 		}
-	}
-
-	public void paintXY() {
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == 1) {
-			x = e.getX();
-			y = e.getY();
-			mouseState = true;
+			if(gameState == true){
+
+				if(stakeHolder == true){
+					x = e.getX();
+					y = e.getY();
+					mouseState = true;
+				}
+
+			}
+			else{
+				x = e.getX();
+				y = e.getY();
+				mouseState = true;
+
+			}
+
 		}
 	}
 
@@ -530,6 +728,10 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		} else if (e.getSource() == chkExit) {
 			checkexit = true;
 			out.println("redispose " + room + " ");
+		}
+		else if(e.getSource() == startBtn){
+			if(userCount != 1)
+				out.println("RequestGameStart " + room + " 1");
 		}
 		drawing_panel.repaint(); // 이 부분이 안되면 절대 초기화가 되지않는다.
 	}
@@ -593,14 +795,21 @@ class MyGeneralPathOpen extends MyShape {
 	public void DrawShape() {
 		if (mode == 1) {
 			GeneralPath g = new GeneralPath();
+			if(XpointsList.size() == 0){
+				XpointsList.add(0);
+				YpointsList.add(0);
+			}
+			System.out.println("애러가 난다면 여기다." + XpointsList.get(0) +" "+ YpointsList.get(0));
 			g.moveTo(XpointsList.get(0), YpointsList.get(0));
 			for (int i = 0; i < XpointsList.size(); ++i) {
 				g.lineTo(XpointsList.get(i), YpointsList.get(i));
 			}
 			shapeArray.add(g); // 여기에 모양을 저장해야만 기록이 된다.
 		}
-		XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서 그려지게된다.
-		YpointsList.removeAll(YpointsList);
+		XpointsList.clear();
+		YpointsList.clear();
+		//XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서 그려지게된다.
+		//YpointsList.removeAll(YpointsList);
 	}
 
 	@Override
@@ -666,7 +875,7 @@ class MyGeneralPathOpen extends MyShape {
 
 	public void changePanMode(int inputmode) {
 		mode = inputmode;
-		System.out.println("mode: " + mode);
+		//System.out.println("mode: " + mode);
 		XpointsList.clear();
 		YpointsList.clear();
 		Xpoints = null;
