@@ -1,4 +1,7 @@
 
+package drawer_druwa;
+
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -58,7 +61,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			eachRoomUser[i] = 0;
 		}
 		this.setLayout(null);
-		this.setSize(800, 625);
+		this.setSize(820, 652);
 
 		LeftPanel.setLayout(null);
 		LeftPanel.add(new ProfileImagePanel("img/image1.png"));
@@ -99,13 +102,15 @@ public class ChannalClass extends JFrame implements ActionListener {
 		this.add(LeftPanel);
 		this.add(left_img_panel);
 
-		BottomPanel();
-		this.add(BottomPanel);
-
 		CenterPanel();
 		this.add(CenterPanel);
 		this.add(bg_panel);
 
+		
+		BottomPanel();
+		this.add(BottomPanel);
+
+		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -178,6 +183,20 @@ public class ChannalClass extends JFrame implements ActionListener {
 		Jbtn4 = new JButton();
 		Jbtn5 = new JButton();
 		Jbtn6 = new JButton();
+		
+		Jbtn1 = new JButton(new ImageIcon(
+				((new ImageIcon("img/join2.png").getImage().getScaledInstance(80, 40, java.awt.Image.SCALE_SMOOTH)))));
+		Jbtn2 = new JButton(new ImageIcon(
+				((new ImageIcon("img/join2.png").getImage().getScaledInstance(80, 40, java.awt.Image.SCALE_SMOOTH)))));
+		Jbtn3 = new JButton(new ImageIcon(
+				((new ImageIcon("img/join2.png").getImage().getScaledInstance(80, 40, java.awt.Image.SCALE_SMOOTH)))));
+		Jbtn4 = new JButton(new ImageIcon(
+				((new ImageIcon("img/join2.png").getImage().getScaledInstance(80, 40, java.awt.Image.SCALE_SMOOTH)))));
+		Jbtn5 = new JButton(new ImageIcon(
+				((new ImageIcon("img/join2.png").getImage().getScaledInstance(80, 40, java.awt.Image.SCALE_SMOOTH)))));
+		Jbtn6 = new JButton(new ImageIcon(
+				((new ImageIcon("img/join2.png").getImage().getScaledInstance(80, 40, java.awt.Image.SCALE_SMOOTH)))));
+		
 		Jbtn1.addActionListener(this);
 		Jbtn2.addActionListener(this);
 		Jbtn3.addActionListener(this);
@@ -192,26 +211,60 @@ public class ChannalClass extends JFrame implements ActionListener {
 		room5.setBounds(5, 268, 290, 125);
 		room6.setBounds(305, 268, 290, 125);
 
-		Jbtn1.setBounds(240, 100, 45, 20);
-		Jbtn2.setBounds(540, 100, 45, 20);
-		Jbtn3.setBounds(240, 225, 45, 20);
-		Jbtn4.setBounds(540, 225, 45, 20);
-		Jbtn5.setBounds(240, 350, 45, 20);
-		Jbtn6.setBounds(540, 350, 45, 20);
+		Jbtn1.setBounds(230, 95, 50, 25);
+		Jbtn2.setBounds(530, 95, 50, 25);
+		Jbtn3.setBounds(230, 220, 50, 25);
+		Jbtn4.setBounds(530, 220, 50, 25);
+		Jbtn5.setBounds(230, 345, 50, 25);
+		Jbtn6.setBounds(530, 345, 50, 25);
 
-		room1.setVisible(false);
-		room2.setVisible(false);
-		room3.setVisible(false);
-		room4.setVisible(false);
-		room5.setVisible(false);
-		room6.setVisible(false);
+		
 
-		Jbtn1.setVisible(false);
-		Jbtn2.setVisible(false);
-		Jbtn3.setVisible(false);
-		Jbtn4.setVisible(false);
-		Jbtn5.setVisible(false);
-		Jbtn6.setVisible(false);
+		JPanel dd = new JPanel();
+		dd.setLayout(new GridLayout(3, 2));
+		jbt1 = new JButton(new ImageIcon(
+				((new ImageIcon("img/create.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
+		jbt2 = new JButton(new ImageIcon(
+				((new ImageIcon("img/create.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
+		jbt3 = new JButton(new ImageIcon(
+				((new ImageIcon("img/create.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
+		jbt4 = new JButton(new ImageIcon(
+				((new ImageIcon("img/create.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
+		jbt5 = new JButton(new ImageIcon(
+				((new ImageIcon("img/create.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
+
+		jbt6 = new JButton(new ImageIcon(
+				((new ImageIcon("img/create.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
+
+	
+		jbt1.setContentAreaFilled(true);
+		jbt2.setContentAreaFilled(true);
+		jbt3.setContentAreaFilled(true);
+		jbt4.setContentAreaFilled(true);
+		jbt5.setContentAreaFilled(true);
+		jbt6.setContentAreaFilled(true);
+
+
+		jbt1.addActionListener(this);
+		jbt2.addActionListener(this);
+		jbt3.addActionListener(this);
+		jbt4.addActionListener(this);
+		jbt5.addActionListener(this);
+		jbt6.addActionListener(this);
+
+		jbt1.setBounds(200, 96, 90, 32);
+		jbt2.setBounds(500, 96, 90, 32);
+		jbt3.setBounds(200, 226, 90, 32);
+		jbt4.setBounds(500, 226, 90, 32);
+		jbt5.setBounds(200, 356, 90, 32);
+		jbt6.setBounds(500, 356, 90, 32);
+		
+		CenterPanel.add(jbt1);
+		CenterPanel.add(jbt2);
+		CenterPanel.add(jbt3);
+		CenterPanel.add(jbt4);
+		CenterPanel.add(jbt5);
+		CenterPanel.add(jbt6);
 
 		CenterPanel.add(Jbtn1);
 		CenterPanel.add(Jbtn2);
@@ -228,51 +281,28 @@ public class ChannalClass extends JFrame implements ActionListener {
 		//CenterPanel.setBackground(Color.LIGHT_GRAY);
 		CenterPanel.setOpaque(false);
 
-		JPanel dd = new JPanel();
-		dd.setLayout(new GridLayout(3, 2));
-		jbt1 = new JButton(new ImageIcon(
-				((new ImageIcon("img/gameroomButton1.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
-		jbt2 = new JButton(new ImageIcon(
-				((new ImageIcon("img/gameroomButton1.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
-		jbt3 = new JButton(new ImageIcon(
-				((new ImageIcon("img/gameroomButton1.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
-		jbt4 = new JButton(new ImageIcon(
-				((new ImageIcon("img/gameroomButton1.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
-		jbt5 = new JButton(new ImageIcon(
-				((new ImageIcon("img/gameroomButton1.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
+		
+		room1.setVisible(true);
+		room2.setVisible(true);
+		room3.setVisible(true);
+		room4.setVisible(true);
+		room5.setVisible(true);
+		room6.setVisible(true);
 
-		jbt6 = new JButton(new ImageIcon(
-				((new ImageIcon("img/gameroomButton1.png").getImage().getScaledInstance(200, 110, java.awt.Image.SCALE_SMOOTH)))));
-
-		jbt1.setContentAreaFilled(false);
-		jbt2.setContentAreaFilled(false);
-		jbt3.setContentAreaFilled(false);
-		jbt4.setContentAreaFilled(false);
-		jbt5.setContentAreaFilled(false);
-		jbt6.setContentAreaFilled(false);
-
-
-
-		jbt1.addActionListener(this);
-		jbt2.addActionListener(this);
-		jbt3.addActionListener(this);
-		jbt4.addActionListener(this);
-		jbt5.addActionListener(this);
-		jbt6.addActionListener(this);
-
-		jbt1.setBounds(5, 5, 290, 130);
-		jbt2.setBounds(305, 5, 290, 130);
-		jbt3.setBounds(5, 135, 290, 130);
-		jbt4.setBounds(305, 135, 290, 130);
-		jbt5.setBounds(5, 265, 290, 130);
-		jbt6.setBounds(305, 265, 290, 130);
-		CenterPanel.add(jbt1);
-		CenterPanel.add(jbt2);
-		CenterPanel.add(jbt3);
-		CenterPanel.add(jbt4);
-		CenterPanel.add(jbt5);
-		CenterPanel.add(jbt6);
-
+		Jbtn1.setVisible(false);
+		Jbtn2.setVisible(false);
+		Jbtn3.setVisible(false);
+		Jbtn4.setVisible(false);
+		Jbtn5.setVisible(false);
+		Jbtn6.setVisible(false);
+	
+		jbt1.setVisible(true);
+		jbt2.setVisible(true);
+		jbt3.setVisible(true);
+		jbt4.setVisible(true);
+		jbt5.setVisible(true);
+		jbt6.setVisible(true);
+		
 	}
 
 	@Override
@@ -386,7 +416,12 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 		while (true) {
 			// jpane.repaint();
-
+			roomCheck(0);
+			roomCheck(1);
+			roomCheck(2);
+			roomCheck(3);
+			roomCheck(4);
+			roomCheck(5);
 			String input = in.readLine();
 
 			if (input.startsWith("SUBMITNAME")) {
@@ -397,6 +432,12 @@ public class ChannalClass extends JFrame implements ActionListener {
 				if (input.equals("Error")) {
 					getError();
 				}
+				roomCheck(0);
+				roomCheck(1);
+				roomCheck(2);
+				roomCheck(3);
+				roomCheck(4);
+				roomCheck(5);
 			} else if (input.startsWith("NAMEACCEPTED")) {
 				String[] tmp = input.split(" ");
 				eachRoomUser[0] = Integer.parseInt(tmp[1]);
@@ -405,23 +446,19 @@ public class ChannalClass extends JFrame implements ActionListener {
 				eachRoomUser[3] = Integer.parseInt(tmp[4]);
 				eachRoomUser[4] = Integer.parseInt(tmp[5]);
 				eachRoomUser[5] = Integer.parseInt(tmp[6]);
-				roomCheck(0);
-				roomCheck(1);
-				roomCheck(2);
-				roomCheck(3);
-				roomCheck(4);
-				roomCheck(5);
 				//System.out.println(myName+" start: "+eachRoomUser[0] +" "+ eachRoomUser[1]+ " "+eachRoomUser[2] + " "+eachRoomUser[3]  + " "+eachRoomUser[4]  + " "+eachRoomUser[5]);
 
 				textField.setEditable(true);
 
 			} else if (input.startsWith("message")) {
 				messageArea.append(input.substring(8) + "\n");
+
 			}
 			// name assign
 			else if (input.startsWith("assign")) {
 				months.addElement(input.substring(7));
 				list.setListData(months);
+
 			} else if (input.startsWith("removename")) {
 				months.removeElement(input.substring(11));
 				list.setListData(months);
@@ -431,6 +468,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 				//System.out.println(input);
 				String[] str = input.split(" ");
 				roomCheck(Integer.parseInt(str[1]));
+		
 			}
 			else if(input.startsWith("synch")){
 				String[] tmp = input.split(" ");
@@ -441,7 +479,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 				eachRoomUser[4] = Integer.parseInt(tmp[5]);
 				eachRoomUser[5] = Integer.parseInt(tmp[6]);
 				//System.out.println(myName+ " synch: " +eachRoomUser[0] +" "+ eachRoomUser[1]+ " "+eachRoomUser[2] + " "+eachRoomUser[3]  + " "+eachRoomUser[4]  + " "+eachRoomUser[5]);
-
+		
 			}
 			else if (input.startsWith("redispose")) {
 				if (showframe == false) {
@@ -450,21 +488,29 @@ public class ChannalClass extends JFrame implements ActionListener {
 					out.println("change "+Integer.parseInt(tmp[1])+" -");
 					showframe = true;
 					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
 				}
 			} else if (input.startsWith("alluser")) {
 				input = input.trim();
 
 				if (input.length() == 7) {
-
+				
 				} else {
 					String[] tmp = input.split(" ");
 					for (int i = 1; i < tmp.length; i++) {
 						months.addElement(tmp[i]);
+						
 					}
 				}
 			}else{
 				System.out.println("일로오면 안돼! :" +input);
 				out.println("retrans " +input);
+				roomCheck(0);
+				roomCheck(1);
+				roomCheck(2);
+				roomCheck(3);
+				roomCheck(4);
+				roomCheck(5);
 			}
 		}
 
@@ -486,13 +532,14 @@ public class ChannalClass extends JFrame implements ActionListener {
 			room1.repaint();
 			if (eachRoomUser[0] == 0) {
 				jbt1.setVisible(true);
-				room1.setVisible(false);
+				room1.setVisible(true);
 				Jbtn1.setVisible(false);
 			}
 			else{
 				jbt1.setVisible(false);
-				room1.setVisible(true);
 				Jbtn1.setVisible(true);
+				room1.setVisible(true);
+				
 			}
 		}
 		else if(room == 1){
@@ -502,7 +549,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			room2.repaint();
 			if (eachRoomUser[1] == 0) {
 				jbt2.setVisible(true);
-				room2.setVisible(false);
+				room2.setVisible(true);
 				Jbtn2.setVisible(false);
 			}
 			else{
@@ -518,7 +565,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			room3.repaint();
 			if (eachRoomUser[2] == 0) {
 				jbt3.setVisible(true);
-				room3.setVisible(false);
+				room3.setVisible(true);
 				Jbtn3.setVisible(false);
 			}
 			else{
@@ -534,7 +581,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			room4.repaint();
 			if (eachRoomUser[3] == 0) {
 				jbt4.setVisible(true);
-				room4.setVisible(false);
+				room4.setVisible(true);
 				Jbtn4.setVisible(false);
 			}
 			else{
@@ -550,7 +597,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			room5.repaint();
 			if (eachRoomUser[4] == 0) {
 				jbt5.setVisible(true);
-				room5.setVisible(false);
+				room5.setVisible(true);
 				Jbtn5.setVisible(false);
 			}
 			else{
@@ -566,7 +613,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 			room6.repaint();
 			if (eachRoomUser[5] == 0) {
 				jbt6.setVisible(true);
-				room6.setVisible(false);
+				room6.setVisible(true);
 				Jbtn6.setVisible(false);
 			}
 			else{
