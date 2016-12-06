@@ -566,8 +566,17 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					hintBtn.setVisible(false);
 					QUIZCOUNT= 0;
 					hintCheck = false;
-
-					for(int i = 0 ; i < 4 ; i++){
+					if(userCount == 2){
+						ResultClass a = new ResultClass (eachUserPoint[0],eachUserPoint[1] , userName[0], userName[1]);
+						a.setVisible(true);
+					}else if(userCount == 3){
+						ResultClass a = new ResultClass(eachUserPoint[0],eachUserPoint[1],eachUserPoint[2] , userName[0], userName[1],userName[2]);
+						a.setVisible(true);
+					}else if(userCount == 4){
+						ResultClass a = new ResultClass(eachUserPoint[0],eachUserPoint[1],eachUserPoint[2],eachUserPoint[3] , userName[0], userName[1],userName[2],userName[3]);
+						a.setVisible(true);
+					}
+					for(int i = 0 ; i < userCount ; i++){
 						System.out.println("유저 "+ (i+1) + " : " + eachUserPoint[i] );
 						eachUserPoint[i] = 0;
 					}
