@@ -164,7 +164,11 @@ public class ChatServer {
 					else if(input.startsWith("collect")){
 						out.println(input);
 					}
-
+					else if(input.startsWith("showHint")){
+						String[] str = input.split(" ");
+						int tmproom = Integer.parseInt(str[1]);
+						out.println(input+ " "+ questionSolution[tmproom]);
+					}
 					//out.println("point "+ room +" " + x + " " + y);
 					else if (input.startsWith("point")) {
 						String[] str = input.split(" ");
@@ -191,6 +195,15 @@ public class ChatServer {
 							tempName = (String) gHm.get("name");
 							if (!tempName.equals(this.name))
 								e.println("released "+tmproom);
+						}
+
+					}else if(input.startsWith("colorChange")){
+						String[] str = input.split(" ");
+						int tmproom = Integer.parseInt(str[1]);
+						for (int c = 0; c < eachRoomUserInfo[tmproom].size(); c++) {
+							gHm = (HashMap) eachRoomUserInfo[tmproom].get(c);
+							e = (PrintWriter) gHm.get("Client");
+							e.println("colorChange "+ tmproom + " "+str[2] );
 						}
 
 					}

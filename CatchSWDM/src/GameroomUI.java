@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 
 public class GameroomUI implements MouseMotionListener, MouseListener, ActionListener {
@@ -52,7 +53,13 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	static int num;
 	public static int count = 0;
 	int room;
-	JButton lineBtn, ovalBtn, clearBtn,startBtn;
+	private int x, y, width, height;
+	int userCount;
+
+	JButton c1,c2,c3,c4,c5,c6,c7,c8,c9,c10;
+	JButton lineBtn, ovalBtn, clearBtn,startBtn, hintBtn;
+	JButton chkExit;
+
 	private JTextField textField = new JTextField();
 	private JTextArea messageArea;
 	JScrollPane jpane2;
@@ -61,11 +68,12 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	PrintWriter out;
 	String []userName = new String[4];
 	String myName;
-	int userCount;
+
+	boolean hintCheck = false;
 	public boolean checkexit = false;
-	JButton chkExit;
-	private int x, y, width, height;
 	private boolean mouseState;
+
+
 
 	Thread t;
 	public GameroomUI(Socket sc, int room,String myName) {
@@ -81,21 +89,22 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		};
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(null);
-
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
 
 		lineBtn = new JButton(); //연필
 		ovalBtn = new JButton(); //굵은 팬
 		clearBtn = new JButton(); //초기화
 		chkExit = new JButton(); //나가기
+		hintBtn = new JButton("Hint!");
 		startBtn = new JButton("START");
 
 		lineBtn = new JButton(new ImageIcon(
-				((new ImageIcon("img/pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/pencil.png").getImage().getScaledInstance(70, 25, java.awt.Image.SCALE_SMOOTH)))));
 		ovalBtn = new JButton(new ImageIcon(
-				((new ImageIcon("img/bold_pencil.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/bold_pencil.png").getImage().getScaledInstance(70, 25, java.awt.Image.SCALE_SMOOTH)))));
 		clearBtn = new JButton(new ImageIcon(
-				((new ImageIcon("img/reset.png").getImage().getScaledInstance(90, 40, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/reset.png").getImage().getScaledInstance(70, 25, java.awt.Image.SCALE_SMOOTH)))));
 		chkExit= new JButton(new ImageIcon(
 				((new ImageIcon("img/exit.png").getImage().getScaledInstance(180, 80, java.awt.Image.SCALE_SMOOTH)))));
 
@@ -116,7 +125,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		ovalBtn.addActionListener(this);
 		chkExit.addActionListener(this);
 		startBtn.addActionListener(this);
-
+		hintBtn.addActionListener(this);
 		// 배경 패널 생성
 		bg = new ImageIcon("img/bg2.png");
 		background_panel = new JPanel() {
@@ -150,7 +159,10 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user2_name.setBounds(820 ,295 ,100, 20);
 		user3_name.setBounds(88, 550 ,100, 20);
 		user4_name.setBounds(820 ,550 ,100, 20);
-		solutionLb.setBounds(10 ,10 , 100, 20);
+		solutionLb.setBounds(80 ,30 , 100, 20);
+		hintBtn.setBounds(80, 550, 100, 40);
+		hintBtn.setBackground(Color.ORANGE);
+		hintBtn.setVisible(false);
 		user1_name.setBackground(Color.orange);
 		user2_name.setBackground(Color.orange);
 		user3_name.setBackground(Color.orange);
@@ -167,12 +179,90 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 
 		pentoolPanel = new JPanel();
 		pentoolPanel.setBounds(300, 430, 400, 50);
-		pentoolPanel.setBackground(Color.white);
+		pentoolPanel.setBackground(new Color(150, 207, 239));
+		pentoolPanel.setLayout(null);
+		lineBtn.setBounds(180,10,68,30);
+		clearBtn.setBounds(255,10,68,30);
+		ovalBtn.setBounds(325,10,68,30);
 		pentoolPanel.add(lineBtn);
 		pentoolPanel.add(clearBtn);
 		pentoolPanel.add(ovalBtn);
 
+		c1 = new JButton();
+		c2 = new JButton();
+		c3 = new JButton();
+		c4 = new JButton();
+		c5 = new JButton();
+		c6 = new JButton();
+		c7 = new JButton();
+		c8 = new JButton();
+		c9 = new JButton();
+		c10 = new JButton();
+		c1.setBackground(new Color(224, 255, 202));
+		c2.setBackground(new Color(239, 90, 90));
+		c3.setBackground(new Color(255, 200, 0));
+		c4.setBackground(new Color(255, 255, 0));
+		c5.setBackground(new Color(121, 142, 121));
+		c6.setBackground(new Color(103, 103, 232));
+		c7.setBackground(new Color(0, 255, 255));
+		c8.setBackground(new Color(177, 110, 110));
+		c9.setBackground(new Color(128, 128, 128));
+		c10.setBackground(new Color(0, 0, 0));
 
+
+		c1.setOpaque(true);
+		c2.setOpaque(true);
+		c3.setOpaque(true);
+		c4.setOpaque(true);
+		c5.setOpaque(true);
+		c6.setOpaque(true);
+		c7.setOpaque(true);
+		c8.setOpaque(true);
+		c9.setOpaque(true);
+		c10.setOpaque(true);
+
+		c1.setBorderPainted(false);
+		c2.setBorderPainted(false);
+		c3.setBorderPainted(false);
+		c4.setBorderPainted(false);
+		c5.setBorderPainted(false);
+		c6.setBorderPainted(false);
+		c7.setBorderPainted(false);
+		c8.setBorderPainted(false);
+		c9.setBorderPainted(false);
+		c10.setBorderPainted(false);
+		c1.setBounds(20, 10, 15, 15);
+		c2.setBounds(35, 10, 15, 15);
+		c3.setBounds(50, 10, 15, 15);
+		c4.setBounds(65, 10, 15, 15);
+		c5.setBounds(80, 10, 15, 15);
+		c6.setBounds(95, 10, 15, 15);
+		c7.setBounds(110, 10, 15, 15);
+		c8.setBounds(125, 10, 15, 15);
+		c9.setBounds(140, 10, 15, 15);
+		c10.setBounds(155, 10, 15, 15);
+
+		c1.addActionListener(this);
+		c2.addActionListener(this);
+		c3.addActionListener(this);
+		c4.addActionListener(this);
+		c5.addActionListener(this);
+		c6.addActionListener(this);
+		c7.addActionListener(this);
+		c8.addActionListener(this);
+		c9.addActionListener(this);
+		c10.addActionListener(this);
+
+		pentoolPanel.add(c1);
+		pentoolPanel.add(c2);
+		pentoolPanel.add(c3);
+		pentoolPanel.add(c4);
+		pentoolPanel.add(c5);
+		pentoolPanel.add(c6);
+		pentoolPanel.add(c7);
+		pentoolPanel.add(c8);
+		pentoolPanel.add(c9);
+		pentoolPanel.add(c10);
 		drawing_panel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		drawing_panel.setLayout(new BorderLayout());
 
@@ -213,7 +303,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		//		user2_panel.add(user2_label);
 		//		user3_panel.add(user3_label);
 		//		user4_panel.add(user4_label);
-
+		background_panel.add(hintBtn);
 		background_panel.add(solutionLb);
 		background_panel.add(startBtn);
 		background_panel.add(user1_name);
@@ -272,9 +362,10 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 				} else if (input.startsWith("point")) {
 					String[] str = input.split(" ");
 					line.pointXY(Integer.parseInt(str[2]), Integer.parseInt(str[3]));
-
+					drawing_panel.add(line);
 				} else if (input.startsWith("released")) {
 					line.DrawShape();
+					drawing_panel.add(line);
 				} else if (input.startsWith("clearpanel")) {
 					line.clearElement();
 					drawing_panel.add(line);
@@ -282,7 +373,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 				} else if (input.startsWith("mode")) {
 					String[] str = input.split(" ");
 					line.changePanMode(Integer.parseInt(str[2]));
-
+					drawing_panel.add(line);
 				}else if(input.startsWith("getAnswer")){
 					//checkGetAnswer
 					String[] str = input.split(" ");
@@ -318,15 +409,26 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 						out.println("RequestGameStart "+ room + " 2");
 					}
 
-				}else if (input.startsWith("GameStart")) {
+				}
+				else if(input.startsWith("showHint")){ // 11
+					String sub = input.substring(11);
+					String starCount="";
+					for(int i = 0 ; i < sub.length()-1  ; i++)
+						starCount+="*";
+					solutionLb.setText(sub.substring(0, 1) + starCount);
+					solutionLb.repaint();
+				}
+				else if (input.startsWith("GameStart")) {
 
-					//System.out.println("게임 시작!");
+
 					startBtn.setVisible(false);
 					solutionLb.setVisible(true);
+					chkExit.setVisible(false);
+					hintBtn.setVisible(true);
 					gameState = true;
 					user1_name.setBackground(Color.RED);
 					QUIZCOUNT = 0;
-
+					hintCheck = true;
 					for(int i = 0 ; i < 4 ; i ++){
 						eachUserPoint[i] =0;
 					}
@@ -357,6 +459,10 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 						}
 					});
 					t.start();
+				}else if(input.startsWith("colorChange")){
+					String[] str = input.split(" ");
+					line.setgColor(str[2]);
+					drawing_panel.add(line);
 				}
 				//e.println("collect " + tmproom + " " +name);
 				else if(input.startsWith("collect")){
@@ -450,17 +556,24 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					user2_name.setBackground(Color.ORANGE);
 					user3_name.setBackground(Color.ORANGE);
 					user4_name.setBackground(Color.ORANGE);
+					solutionLb.setText("");
+					solutionLb.repaint();
 					gameState = false;
 					stakeHolder = false;
 					solutionLb.setVisible(false);
 					startBtn.setVisible(true);
+					chkExit.setVisible(true);
+					hintBtn.setVisible(false);
 					QUIZCOUNT= 0;
+					hintCheck = false;
 
 					for(int i = 0 ; i < 4 ; i++){
 						System.out.println("유저 "+ (i+1) + " : " + eachUserPoint[i] );
 						eachUserPoint[i] = 0;
 					}
-
+				}
+				else{
+					out.println("retrans " +input);
 				}
 			}
 		}
@@ -729,20 +842,43 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		drawing_panel.removeAll();
 
 		if (e.getSource() == lineBtn) {
-			if(stakeHolder){
+			if(gameState){
+				if(stakeHolder){
+					drawing_panel.add(line);
+					line.changePanMode(1);
+					out.println("mode " + room + " 1");
+				}
+			}
+			else{
 				drawing_panel.add(line);
 				line.changePanMode(1);
 				out.println("mode " + room + " 1");
 			}
 		}
 		if (e.getSource() == ovalBtn) {
-			if(stakeHolder){
+			if(gameState){
+				if(stakeHolder){
+					drawing_panel.add(line);
+					line.changePanMode(2);
+					out.println("mode " + room + " 2");
+				}
+			}
+			else{
 				drawing_panel.add(line);
 				line.changePanMode(2);
 				out.println("mode " + room + " 2");
 			}
+
 		} else if (e.getSource() == clearBtn) {
-			if(stakeHolder){
+			if(gameState){
+				if(stakeHolder){
+					line.clearElement();
+					drawing_panel.add(line);
+
+					out.println("clearpanel " + room);
+				}
+			}
+			else{
 				line.clearElement();
 				drawing_panel.add(line);
 
@@ -758,6 +894,48 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		else if(e.getSource() == startBtn){
 			if(userCount != 1)
 				out.println("RequestGameStart " + room + " 1");
+		}else if(e.getSource() == hintBtn){
+			if(stakeHolder  == false && hintCheck == true){
+				hintCheck = false;
+				out.println("showHint " + room);
+			}
+
+		}
+		else{
+			drawing_panel.add(line);
+
+			boolean a =false;
+			if(!gameState){
+				a = true;
+			}
+			else{
+				if(stakeHolder)
+					a = true;
+			}
+			if(a){
+				int i = 0;
+				if(e.getSource() == c1)
+					i = 1;
+				else if(e.getSource() == c2)
+					i = 2;
+				else if(e.getSource() == c3)
+					i = 3;
+				else if(e.getSource() == c4)
+					i = 4;
+				else if(e.getSource() == c5)
+					i = 5;
+				else if(e.getSource() == c6)
+					i = 6;
+				else if(e.getSource() == c7)
+					i = 7;
+				else if(e.getSource() == c8)
+					i = 8;
+				else if(e.getSource() == c9)
+					i = 9;
+				else if(e.getSource() == c10)
+					i = 10;
+				out.println("colorChange "+ room + " "+i);
+			}
 		}
 		drawing_panel.repaint(); // 이 부분이 안되면 절대 초기화가 되지않는다.
 	}
@@ -790,11 +968,14 @@ class MyShape extends JComponent {
 
 class MyGeneralPathOpen extends MyShape {
 	int mode = 1;
+	static int gColor =10;
 	int[] Xpoints;
 	int[] Ypoints;
 	ArrayList<Integer> XpointsList = new ArrayList<Integer>();
 	ArrayList<Integer> YpointsList = new ArrayList<Integer>();
-
+	ArrayList<Integer> lineColor = new ArrayList<Integer>();
+	ArrayList<Integer> CycleColor = new ArrayList<Integer>();
+	int[] tempColor;
 	public MyGeneralPathOpen() {
 		s = new GeneralPath();
 	}
@@ -825,15 +1006,20 @@ class MyGeneralPathOpen extends MyShape {
 				XpointsList.add(0);
 				YpointsList.add(0);
 			}
-			System.out.println("애러가 난다면 여기다." + XpointsList.get(0) +" "+ YpointsList.get(0));
+			//System.out.println("애러가 난다면 여기다." + XpointsList.get(0) +" "+ YpointsList.get(0));
+
+
 			g.moveTo(XpointsList.get(0), YpointsList.get(0));
 			for (int i = 0; i < XpointsList.size(); ++i) {
 				g.lineTo(XpointsList.get(i), YpointsList.get(i));
 			}
 			shapeArray.add(g); // 여기에 모양을 저장해야만 기록이 된다.
+			lineColor.add(gColor);
 		}
 		XpointsList.clear();
 		YpointsList.clear();
+		Xpoints = new int[XpointsList.size()];
+		Ypoints = new int[YpointsList.size()];
 		//XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서 그려지게된다.
 		//YpointsList.removeAll(YpointsList);
 	}
@@ -847,29 +1033,96 @@ class MyGeneralPathOpen extends MyShape {
 
 			if (mode == 1) {
 				g2.setStroke(new BasicStroke(2));
-				g2.setColor(Color.cyan);
+				if(gColor == 1){
+					g2.setColor(new Color(224, 255, 202));
+				}else if(gColor == 2){
+					g2.setColor(new Color(239, 90, 90));
+				}else if(gColor == 3){
+					g2.setColor(new Color(255, 200, 0));
+				}else if(gColor == 4){
+					g2.setColor(new Color(255, 255, 0));
+				}else if(gColor == 5){
+					g2.setColor(new Color(121, 142, 121));
+				}else if(gColor == 6){
+					g2.setColor(new Color(103, 103, 232));
+				}else if(gColor == 7){
+					g2.setColor(new Color(0, 255, 255));
+				}else if(gColor == 8){
+					g2.setColor(new Color(177, 110, 110));
+				}else if(gColor == 9){
+					g2.setColor(new Color(128, 128, 128));
+				}else if(gColor == 10){
+					g2.setColor(new Color(0, 0, 0));
+				}
 				g2.drawPolyline(Xpoints, Ypoints, Xpoints.length);
 			} else {
-				s = new Ellipse2D.Float(Xpoints[0], Ypoints[0], 50, 50);
-				shapeArray2.add(s);
-				XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서
-				// 그려지게된다.
-				YpointsList.removeAll(YpointsList);
-				// g2.setColor(Color.RED);
-				// for(int i = 0 ; i < Xpoints.length ; i++){
-				// g2.fillOval(Xpoints[i], Ypoints[i], 50, 50);
-				// }
+
+				if(Xpoints.length != 0){
+					s = new Ellipse2D.Float(Xpoints[0], Ypoints[0], 50, 50);
+					shapeArray2.add(s);
+					CycleColor.add(gColor);
+					XpointsList.removeAll(XpointsList); // 이부분을 하지않을시 선이 이어져서
+					// 그려지게된다.
+					YpointsList.removeAll(YpointsList);
+				}
 			}
 		}
 		g2.setStroke(new BasicStroke(2));
 		g2.setColor(Color.cyan);
+		int i=0,tpcolor;
 		for (Shape s : shapeArray) {
+			tpcolor = lineColor.get(i);
+			if(tpcolor == 1){
+				g2.setColor(new Color(224, 255, 202));
+			}else if(tpcolor == 2){
+				g2.setColor(new Color(239, 90, 90));
+			}else if(tpcolor == 3){
+				g2.setColor(new Color(255, 200, 0));
+			}else if(tpcolor == 4){
+				g2.setColor(new Color(255, 255, 0));
+			}else if(tpcolor == 5){
+				g2.setColor(new Color(121, 142, 121));
+			}else if(tpcolor == 6){
+				g2.setColor(new Color(103, 103, 232));
+			}else if(tpcolor == 7){
+				g2.setColor(new Color(0, 255, 255));
+			}else if(tpcolor == 8){
+				g2.setColor(new Color(177, 110, 110));
+			}else if(tpcolor == 9){
+				g2.setColor(new Color(128, 128, 128));
+			}else if(tpcolor == 10){
+				g2.setColor(new Color(0, 0, 0));
+			}
 			g2.draw(s);
+			i++;
 			// g2.fill(s);
 		}
-		g2.setColor(Color.red);
+		i = 0;
 		for (Shape s : shapeArray2) {
+			tpcolor = CycleColor.get(i);
+			if(tpcolor == 1){
+				g2.setColor(new Color(224, 255, 202));
+			}else if(tpcolor == 2){
+				g2.setColor(new Color(239, 90, 90));
+			}else if(tpcolor == 3){
+				g2.setColor(new Color(255, 200, 0));
+			}else if(tpcolor == 4){
+				g2.setColor(new Color(255, 255, 0));
+			}else if(tpcolor == 5){
+				g2.setColor(new Color(121, 142, 121));
+			}else if(tpcolor == 6){
+				g2.setColor(new Color(103, 103, 232));
+			}else if(tpcolor == 7){
+				g2.setColor(new Color(0, 255, 255));
+			}else if(tpcolor == 8){
+				g2.setColor(new Color(177, 110, 110));
+			}else if(tpcolor == 9){
+				g2.setColor(new Color(128, 128, 128));
+			}else if(tpcolor == 10){
+				g2.setColor(new Color(0, 0, 0));
+			}
 			g2.fill(s);
+			i++;
 		}
 	}
 
@@ -892,13 +1145,37 @@ class MyGeneralPathOpen extends MyShape {
 	public void clearElement() {
 		shapeArray.clear();
 		shapeArray2.clear();
+		CycleColor.clear();
+		lineColor.clear();
 		XpointsList.clear();
 		YpointsList.clear();
 		Xpoints = null;
 		Ypoints = null;
 		repaint();
 	}
+	public void setgColor(String color){
+		if(color.equals("1"))
+			gColor = 1;
+		if(color.equals("2"))
+			gColor =2;
+		if(color.equals("3"))
+			gColor = 3;
+		if(color.equals("4"))
+			gColor =4;
+		if(color.equals("5"))
+			gColor= 5;
+		if(color.equals("6"))
+			gColor =6;
+		if(color.equals("7"))
+			gColor =7;
+		if(color.equals("8"))
+			gColor =8;
+		if(color.equals("9"))
+			gColor =9;
+		if(color.equals("10"))
+			gColor =10;
 
+	}
 	public void changePanMode(int inputmode) {
 		mode = inputmode;
 		//System.out.println("mode: " + mode);
