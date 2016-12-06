@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-
-package drawer_druwa;
-
-
->>>>>>> 63cb1ff43c7e0c45278ceaf7fd00cea7d14c8a33
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -440,13 +433,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 
 		while (true) {
 			// jpane.repaint();
-			roomCheck(0);
-			roomCheck(1);
-			roomCheck(2);
-			roomCheck(3);
-			roomCheck(4);
-			roomCheck(5);
-			String input = in.readLine();
+            String input = in.readLine();
 
 			if (input.startsWith("SUBMITNAME")) {
 				myName = gettUsername();
