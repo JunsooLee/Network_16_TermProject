@@ -36,7 +36,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 	private JTextArea messageArea;
 	private static ImageIcon bgimg = null, LPimg = null;
 	private JPanel room1, room2, room3, room4, room5, room6;
-	private JButton Jbtn1, Jbtn2, Jbtn3, Jbtn4, Jbtn5, Jbtn6;
+	private JButton Jbtn1, Jbtn2, Jbtn3, Jbtn4, Jbtn5, Jbtn6; 
 	JButton jbt1, jbt2, jbt3, jbt4, jbt5, jbt6;
 	Vector months;
 	JList list;
