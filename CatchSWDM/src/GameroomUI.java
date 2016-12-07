@@ -1,3 +1,4 @@
+package drawer_druwa;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -96,28 +97,33 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		ovalBtn = new JButton(); //굵은 팬
 		clearBtn = new JButton(); //초기화
 		chkExit = new JButton(); //나가기
-		hintBtn = new JButton("Hint!");
-		startBtn = new JButton("START");
-
+		hintBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/hint.png").getImage().getScaledInstance(180, 80, java.awt.Image.SCALE_SMOOTH)))));
+		startBtn = new JButton(new ImageIcon(
+				((new ImageIcon("img/start.png").getImage().getScaledInstance(180, 80, java.awt.Image.SCALE_SMOOTH)))));
 		lineBtn = new JButton(new ImageIcon(
-				((new ImageIcon("img/pencil.png").getImage().getScaledInstance(70, 25, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/pencil2.png").getImage().getScaledInstance(70, 40, java.awt.Image.SCALE_SMOOTH)))));
 		ovalBtn = new JButton(new ImageIcon(
-				((new ImageIcon("img/bold_pencil.png").getImage().getScaledInstance(70, 25, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/bold_pencil2.png").getImage().getScaledInstance(70, 40, java.awt.Image.SCALE_SMOOTH)))));
 		clearBtn = new JButton(new ImageIcon(
-				((new ImageIcon("img/reset.png").getImage().getScaledInstance(70, 25, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/reset2.png").getImage().getScaledInstance(70, 40, java.awt.Image.SCALE_SMOOTH)))));
 		chkExit= new JButton(new ImageIcon(
-				((new ImageIcon("img/exit.png").getImage().getScaledInstance(180, 80, java.awt.Image.SCALE_SMOOTH)))));
+				((new ImageIcon("img/exit2.png").getImage().getScaledInstance(160, 60, java.awt.Image.SCALE_SMOOTH)))));
 
 
 		lineBtn.setBorderPainted(false);
 		ovalBtn.setBorderPainted(false);
 		clearBtn.setBorderPainted(false);
 		chkExit.setBorderPainted(false);
+		startBtn.setBorderPainted(false);
+		hintBtn.setBorderPainted(false);
 
 		lineBtn.setContentAreaFilled(false);
 		ovalBtn.setContentAreaFilled(false);
 		clearBtn.setContentAreaFilled(false);
 		chkExit.setContentAreaFilled(false);
+		startBtn.setContentAreaFilled(false);
+		hintBtn.setContentAreaFilled(false);
 
 		// 버튼 이벤트 핸들러 장착
 		lineBtn.addActionListener(this);
@@ -160,8 +166,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user3_name.setBounds(88, 550 ,100, 20);
 		user4_name.setBounds(820 ,550 ,100, 20);
 		solutionLb.setBounds(80 ,30 , 100, 20);
-		hintBtn.setBounds(80, 550, 100, 40);
-		hintBtn.setBackground(Color.ORANGE);
+		hintBtn.setBounds(50, 600, 140, 50);
+		//hintBtn.setBackground(Color.ORANGE);
 		hintBtn.setVisible(false);
 		user1_name.setBackground(Color.orange);
 		user2_name.setBackground(Color.orange);
@@ -181,9 +187,9 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		pentoolPanel.setBounds(300, 430, 400, 50);
 		pentoolPanel.setBackground(new Color(150, 207, 239));
 		pentoolPanel.setLayout(null);
-		lineBtn.setBounds(180,10,68,30);
-		clearBtn.setBounds(255,10,68,30);
-		ovalBtn.setBounds(325,10,68,30);
+		lineBtn.setBounds(180,5,64,50);  //여기
+		clearBtn.setBounds(320,5,64,50);
+		ovalBtn.setBounds(250,5,64,50);
 		pentoolPanel.add(lineBtn);
 		pentoolPanel.add(clearBtn);
 		pentoolPanel.add(ovalBtn);
@@ -231,16 +237,16 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		c8.setBorderPainted(false);
 		c9.setBorderPainted(false);
 		c10.setBorderPainted(false);
-		c1.setBounds(20, 10, 15, 15);
-		c2.setBounds(35, 10, 15, 15);
-		c3.setBounds(50, 10, 15, 15);
-		c4.setBounds(65, 10, 15, 15);
-		c5.setBounds(80, 10, 15, 15);
-		c6.setBounds(95, 10, 15, 15);
-		c7.setBounds(110, 10, 15, 15);
-		c8.setBounds(125, 10, 15, 15);
-		c9.setBounds(140, 10, 15, 15);
-		c10.setBounds(155, 10, 15, 15);
+		c1.setBounds(20, 16, 15, 15);
+		c2.setBounds(35, 16, 15, 15);
+		c3.setBounds(50, 16, 15, 15);
+		c4.setBounds(65, 16, 15, 15);
+		c5.setBounds(80, 16, 15, 15);
+		c6.setBounds(95, 16, 15, 15);
+		c7.setBounds(110, 16, 15, 15);
+		c8.setBounds(125, 16, 15, 15);
+		c9.setBounds(140, 16, 15, 15);
+		c10.setBounds(155, 16, 15, 15);
 
 		c1.addActionListener(this);
 		c2.addActionListener(this);
@@ -283,8 +289,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user4_panel.setLayout(null);
 
 
-		chkExit.setBounds(650, 650, 430, 80);
-		startBtn.setBounds(790, 550, 150, 80);
+		chkExit.setBounds(665, 670, 400, 60);
+		startBtn.setBounds(650, 580, 430, 80);
 
 		// 각 그리기 도구 이벤트 핸들러 장착
 		line.addMouseListener(this);
