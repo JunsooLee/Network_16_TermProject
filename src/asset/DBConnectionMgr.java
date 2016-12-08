@@ -35,7 +35,7 @@ public class DBConnectionMgr {
     private Vector<ConnectionObject> connections = new Vector<ConnectionObject>(10);
     private String _driver = "org.gjt.mm.mysql.Driver",
     
-    _url = "jdbc:mysql://localhost/info",
+    _url = "jdbc:mysql://127.0.0.1/info",
     _user = "root",
     _password = "12345";
 

@@ -24,7 +24,9 @@ import javax.swing.JTextField;
 
 import controller.LoginService;
 import join.Joinview;
- 
+import model.Member;
+import Catch.ChannalClass;
+
 public class LoginFrame extends JFrame implements ActionListener{
  
     BufferedImage img = null;
@@ -33,12 +35,10 @@ public class LoginFrame extends JFrame implements ActionListener{
     JButton bt;
     JButton bt2;
  
-    // 메인
     public static void main(String[] args) {
         new LoginFrame();
     }
  
-    // 생성자
     public LoginFrame() {
         setTitle("Drawer Druwa");
         setSize(1000, 720);
@@ -49,12 +49,10 @@ public class LoginFrame extends JFrame implements ActionListener{
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 0, 1000, 720);
         layeredPane.setLayout(null);
- 
-        // 패널1
         
         // 이미지 받아오기
         try {
-            img = ImageIO.read(new File("Drawer Druwa.png"));
+            img = ImageIO.read(new File("img/Drawer Druwa.png"));
         } catch (IOException e) {
             System.out.println("이미지 불러오기 실패");
             System.exit(0);
@@ -78,13 +76,13 @@ public class LoginFrame extends JFrame implements ActionListener{
         passwordField.setForeground(Color.black);
         passwordField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         layeredPane.add(passwordField);
- 
+
         // 로그인버튼 추가
-        bt = new JButton(new ImageIcon("Login.png"));
+        bt = new JButton(new ImageIcon("img/Login.png"));
         bt.setBounds(580, 458, 104, 48);
         
         // 회원가입 버튼
-        bt2 = new JButton(new ImageIcon("Join.png"));
+        bt2 = new JButton(new ImageIcon("img/Join.png"));
         bt2.setBounds(580, 508, 104, 48);
  
         // 버튼 투명처리
@@ -105,7 +103,6 @@ public class LoginFrame extends JFrame implements ActionListener{
         layeredPane.add(bt);
         layeredPane.add(bt2);
  
-        // 마지막 추가들
         layeredPane.add(panel);
         add(layeredPane);
         setLocation(200,0);
@@ -123,19 +120,36 @@ public class LoginFrame extends JFrame implements ActionListener{
 		String id = loginTextField.getText();
         char[] pass = passwordField.getPassword();
         String password = new String(pass);
+        Member info = new Member();
  
         if (id.equals("") || password.equals("")) {
-            // 메시지를 날린다.
+        	//Type not at all
             JOptionPane.showMessageDialog(null, "Enter a ID or Password");
         } else {
- 
-            // 로그인 참 거짓 여부를 판단
-            boolean existLogin = LoginService.loginTest(id, password);
+            // Check login.
+            boolean existLogin = LoginService.loginTest(id, password, info);
  
             if (existLogin) {
-                JOptionPane.showMessageDialog(null, "로그인 성공");
+            	//If login is successes.
+            	
+            	this.setVisible(false);
+            	Thread t;
+            	t = new Thread(new Runnable() {
+            		@Override
+        			public void run() {
+            			ChannalClass a = new ChannalClass(info);
+                		try {
+                			a.run();
+                		} catch (IOException e) {
+                			// TODO Auto-generated catch block
+                			e.printStackTrace();
+                		}
+                		a.setVisible(true);
+            		}
+            	});
+            	t.start();
             } else {
-                // 로그인 실패일 경우
+                // If login is failed.
                 JOptionPane.showMessageDialog(null, "You enter wrong ID or Password");
             }
  

@@ -6,6 +6,8 @@ public class Member {
 	private String password;
 	private int num_win;
 	private int point;
+	private int character;
+	
 	public int getGrade() {
 		return Grade;
 	}
@@ -35,5 +37,11 @@ public class Member {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public int getCharacter() {
+		return character;
+	}
+	public void setCharacter(int character) {
+		this.character = character;
 	}
 }
