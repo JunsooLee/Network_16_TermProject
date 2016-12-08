@@ -16,7 +16,7 @@ public class RoomClass extends JPanel {
 	JPanel centerPanel;
 
 	public RoomClass() {
-		icon = new ImageIcon("background.png");
+		icon = new ImageIcon("img/background.png");
 		this.setSize(290, 125);
 		this.setLayout(null);
 
@@ -29,13 +29,13 @@ public class RoomClass extends JPanel {
 
 	}
 	public RoomClass(int userNumber, String roomName) {
-		icon = new ImageIcon("background.png");
-		icon2 = new ImageIcon("panelimg.png");
+		icon = new ImageIcon("img/background.png");
+		icon2 = new ImageIcon("img/panelimg.png");
 		this.setLayout(null);
 		this.setSize(290, 125);
 
-		JLabel title = new SetLabelImg("panelimg.png");
-		JLabel userLine = new SetLabelImg("panelimg.png");
+		JLabel title = new SetLabelImg("img/panelimg.png");
+		JLabel userLine = new SetLabelImg("img/panelimg.png");
 
 
 		title.setText("  " + roomName);
@@ -64,10 +64,10 @@ public class RoomClass extends JPanel {
 		centerPanel.setLayout(null);
 		centerPanel.setBounds(5, 45, 200, 40);
 		if(userNumber == 0){
-			user1 = new SetLabelImg("user2.png");
-			user2 =	new SetLabelImg("user2.png");
-			user3 = new SetLabelImg("user2.png");
-			user4 = new SetLabelImg("user2.png");
+			user1 = new SetLabelImg("img/user2.png");
+			user2 =	new SetLabelImg("img/user2.png");
+			user3 = new SetLabelImg("img/user2.png");
+			user4 = new SetLabelImg("img/user2.png");
 
 			user1.setBounds(10,5, 30,30);
 			centerPanel.add(user1);
@@ -79,10 +79,10 @@ public class RoomClass extends JPanel {
 			centerPanel.add(user4);
 		}
 		if (userNumber == 1) {
-			user1 = new SetLabelImg("user1.png");
-			user2 =	new SetLabelImg("user2.png");
-			user3 = new SetLabelImg("user2.png");
-			user4 = new SetLabelImg("user2.png");
+			user1 = new SetLabelImg("img/user1.png");
+			user2 =	new SetLabelImg("img/user2.png");
+			user3 = new SetLabelImg("img/user2.png");
+			user4 = new SetLabelImg("img/user2.png");
 
 			user1.setBounds(10,5, 30,30);
 			centerPanel.add(user1);
@@ -94,10 +94,10 @@ public class RoomClass extends JPanel {
 			centerPanel.add(user4);
 		}
 		if (userNumber == 2) {
-			user1 = new SetLabelImg("user1.png");
-			user2 =	new SetLabelImg("user1.png");
-			user3 = new SetLabelImg("user2.png");
-			user4 = new SetLabelImg("user2.png");
+			user1 = new SetLabelImg("img/user1.png");
+			user2 =	new SetLabelImg("img/user1.png");
+			user3 = new SetLabelImg("img/user2.png");
+			user4 = new SetLabelImg("img/user2.png");
 
 			user1.setBounds(10,5, 30,30);
 			centerPanel.add(user1);
@@ -109,10 +109,10 @@ public class RoomClass extends JPanel {
 			centerPanel.add(user4);
 		}
 		if (userNumber == 3) {
-			user1 = new SetLabelImg("user1.png");
-			user2 =	new SetLabelImg("user1.png");
-			user3 = new SetLabelImg("user1.png");
-			user4 = new SetLabelImg("user2.png");
+			user1 = new SetLabelImg("img/user1.png");
+			user2 =	new SetLabelImg("img/user1.png");
+			user3 = new SetLabelImg("img/user1.png");
+			user4 = new SetLabelImg("img/user2.png");
 			user1.setBounds(10,5, 30,30);
 			centerPanel.add(user1);
 			user2.setBounds(50,5, 30,30);
@@ -123,10 +123,10 @@ public class RoomClass extends JPanel {
 			centerPanel.add(user4);
 		}
 		if (userNumber == 4) {
-			user1 = new SetLabelImg("user1.png");
-			user2 =	new SetLabelImg("user1.png");
-			user3 = new SetLabelImg("user1.png");
-			user4 = new SetLabelImg("user1.png");
+			user1 = new SetLabelImg("img/user1.png");
+			user2 =	new SetLabelImg("img/user1.png");
+			user3 = new SetLabelImg("img/user1.png");
+			user4 = new SetLabelImg("img/user1.png");
 			user1.setBounds(10,5, 30,30);
 			centerPanel.add(user1);
 			user2.setBounds(50,5, 30,30);

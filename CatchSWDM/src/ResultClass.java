@@ -1,6 +1,4 @@
-package drawer_druwa;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -15,14 +13,14 @@ import javax.swing.JPanel;
 public class ResultClass  extends JFrame implements ActionListener{
 	private static ImageIcon bg = null;
 	private static JPanel bg_panel;
-	
+
 	JButton btn = new JButton(new ImageIcon(
 			((new ImageIcon("img/exit2.png").getImage().getScaledInstance(100, 40, java.awt.Image.SCALE_SMOOTH)))));
 
 	//JLabel Titlelb = new JLabel("Result!!! ");
 
 	public  ResultClass(){
-		
+
 	}
 	public ResultClass(int user1, int user2 ,String u11,String u22) {
 		setSize(500, 500);
@@ -68,7 +66,7 @@ public class ResultClass  extends JFrame implements ActionListener{
 		this.add(btn);
 		this.add(bg_panel);
 		//this.add(Titlelb);
-	
+
 
 	}
 
@@ -87,7 +85,7 @@ public class ResultClass  extends JFrame implements ActionListener{
 				g.drawImage(bg.getImage(),0, 0, 500, 500, null);
 			}
 		};
-		
+
 		JLabel u1,u2,u3;
 
 		u1 = new JLabel(u11 + " score: "+ user1);
@@ -115,13 +113,13 @@ public class ResultClass  extends JFrame implements ActionListener{
 		u1.setBounds(70, 110 , 300 ,50);
 		u2.setBounds(70, 175 , 300 ,50);
 		u3.setBounds(70, 240 , 300 ,50);
-		
+
 		bg_panel.setBounds(0,0,500,500);
 		bg_panel.setVisible(true);
 		btn.setBounds(200, 400, 100, 40);
-		btn.setContentAreaFilled(false);	
+		btn.setContentAreaFilled(false);
 		btn.addActionListener(this);
-		
+
 		this.add(u1);
 		this.add(u2);
 		this.add(u3);
@@ -145,7 +143,7 @@ public class ResultClass  extends JFrame implements ActionListener{
 				g.drawImage(bg.getImage(),0, 0, 500, 500, null);
 			}
 		};
-		
+
 
 		JLabel u1,u2,u3,u4;
 		u1 = new JLabel(u11+ " score: "+ user1);
@@ -181,7 +179,7 @@ public class ResultClass  extends JFrame implements ActionListener{
 		u2.setBounds(70, 175 , 300 ,50);
 		u3.setBounds(70, 240 , 300 ,50);
 		u4.setBounds(70,305,300,50);
-		
+
 		bg_panel.setBounds(0,0,500,500);
 		bg_panel.setVisible(true);
 
@@ -195,7 +193,7 @@ public class ResultClass  extends JFrame implements ActionListener{
 		this.add(u4);
 		this.add(bg_panel);
 		//this.add(Titlelb);
-		
+
 	}
 
 	@Override

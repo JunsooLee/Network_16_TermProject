@@ -1,4 +1,4 @@
-package drawer_druwa;
+
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -41,10 +41,11 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 	private JLabel user1_name, user2_name, user3_name, user4_name;
 	private JPanel user1_panel, user2_panel, user3_panel, user4_panel;
 	private JTextField solutionLb;
+	private JTextField timerlb = new JTextField();
 	private JPanel pentoolPanel;
 	private JFrame frame;
 	private JLabel title;
-	private ImageIcon bg = null;
+	private ImageIcon bg = null ,cc;
 	int[] eachUserPoint = new int[4];
 	boolean gameState = false , checkNextQize = false , checkGetAnswer = false;
 	boolean stakeHolder = false;
@@ -151,11 +152,25 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user2_name = new JLabel();
 		user3_name = new JLabel();
 		user4_name = new JLabel();
-		solutionLb = new JTextField();
+
+		cc = new ImageIcon("img/question.png");
+		solutionLb = new JTextField(){
+			@Override
+			public void paintComponent(Graphics g) {
+				Dimension d = getSize();
+				g.drawImage(cc.getImage(), 0, 0, d.width, d.height, null);
+			}
+		};;
 		solutionLb.setVisible(false);
+		solutionLb.setHorizontalAlignment(JLabel.CENTER);
 		solutionLb.setEditable(false);
 		textField.setEditable(true);
 		solutionLb.setBackground(Color.white);
+
+		timerlb.setVisible(false);
+		timerlb.setEditable(false);
+		timerlb.setBackground(Color.white);
+
 
 		user1_name.setVisible(false);
 		user2_name.setVisible(false);
@@ -166,6 +181,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user3_name.setBounds(88, 550 ,100, 20);
 		user4_name.setBounds(820 ,550 ,100, 20);
 		solutionLb.setBounds(80 ,30 , 100, 20);
+		timerlb.setBounds(810 ,30 , 100, 20);
+
 		hintBtn.setBounds(50, 600, 140, 50);
 		//hintBtn.setBackground(Color.ORANGE);
 		hintBtn.setVisible(false);
@@ -310,6 +327,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		//		user3_panel.add(user3_label);
 		//		user4_panel.add(user4_label);
 		background_panel.add(hintBtn);
+		background_panel.add(timerlb);
 		background_panel.add(solutionLb);
 		background_panel.add(startBtn);
 		background_panel.add(user1_name);
@@ -429,6 +447,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 
 					startBtn.setVisible(false);
 					solutionLb.setVisible(true);
+					timerlb.setVisible(true);
 					chkExit.setVisible(false);
 					hintBtn.setVisible(true);
 					gameState = true;
@@ -447,14 +466,16 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 							oldTime = (int) System.currentTimeMillis() / 1000;
 							while(true){
 								try {
-									Thread.sleep(1000);
+									Thread.sleep(100);
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								timeCount = stopwatch();
+								timerlb.setText(getTimerString(oldTime+10 -  ((int) System.currentTimeMillis() / 1000)));
 								if(timeCount > 10){
 									if(stakeHolder){
+										timerlb.setText("");
 										stakeHolder =false;
 										out.println("timeOut " + room + " "+ QUIZCOUNT);
 									}
@@ -534,14 +555,16 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 							oldTime = (int) System.currentTimeMillis() / 1000;
 							while(true){
 								try {
-									Thread.sleep(1000);
+									Thread.sleep(100);
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								timeCount = stopwatch();
+								timerlb.setText(getTimerString(oldTime+10 -  ((int) System.currentTimeMillis() / 1000)));
 								if(timeCount > 10){
 									if(stakeHolder){
+										timerlb.setText("");
 										stakeHolder=false;
 										out.println("timeOut " + room + " "+ QUIZCOUNT);
 									}
@@ -572,6 +595,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 					hintBtn.setVisible(false);
 					QUIZCOUNT= 0;
 					hintCheck = false;
+					timerlb.setVisible(false);
 					if(userCount == 2){
 						ResultClass a = new ResultClass (eachUserPoint[0],eachUserPoint[1] , userName[0], userName[1]);
 						a.setVisible(true);
@@ -586,6 +610,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 						System.out.println("유저 "+ (i+1) + " : " + eachUserPoint[i] );
 						eachUserPoint[i] = 0;
 					}
+					//TODO 데이터베이스 저장
 				}
 				else{
 					out.println("retrans " +input);
@@ -611,22 +636,31 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		timerBuffer = String.format("%02d:%02d:%02d", hour, min, sec);
 		return timerBuffer;
 	}
+	public static String getTimerString(int secs){
+		int min, sec;
+
+		sec  = secs % 60;
+		min  = secs / 60 % 60;
+
+
+		return timerBuffer = String.format("%02d:%02d", min, sec);
+	}
 	private void changeUserProfile() {
 		//		user1_panel.removeAll();
 		//		user2_panel.removeAll();
 		//		user3_panel.removeAll();
 		//		user4_panel.removeAll();
 
-		user1_label = new SetLabelImg("image1.png");
-		user2_label = new SetLabelImg("image1.png");
-		user3_label = new SetLabelImg("image1.png");
-		user4_label = new SetLabelImg("image1.png");
+		user1_label = new SetLabelImg("img/image1.png");
+		user2_label = new SetLabelImg("img/image1.png");
+		user3_label = new SetLabelImg("img/image1.png");
+		user4_label = new SetLabelImg("img/image1.png");
 		user1_label.setBounds(0, 0, 50, 50);
 		user2_label.setBounds(0, 0, 151, 173);
 		user3_label.setBounds(0, 0, 151, 175);
 		user4_label.setBounds(0, 0, 151, 175);
 		if (userCount == 1) {
-			user1_label = new SetLabelImg("image1.png");
+			user1_label = new SetLabelImg("img/image1.png");
 			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
 			user1_panel.add(user1_label);
@@ -646,7 +680,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user4_name.setVisible(false);
 
 		} else if (userCount == 2) {
-			user1_label = new SetLabelImg("image1.png");
+			user1_label = new SetLabelImg("img/image1.png");
 			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
 			user1_panel.add(user1_label);
@@ -655,7 +689,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user1_name.setText(userName[0]);
 			user1_name.setVisible(true);
 
-			user2_label = new SetLabelImg("image1.png");
+			user2_label = new SetLabelImg("img/image1.png");
 			user2_label.setBounds(0, 0, 151, 173);
 			user2_label.setVisible(true);
 			user2_panel.add(user2_label);
@@ -672,7 +706,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user4_name.setVisible(false);
 
 		} else if (userCount == 3) {
-			user1_label = new SetLabelImg("image1.png");
+			user1_label = new SetLabelImg("img/image1.png");
 			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
 			user1_panel.add(user1_label);
@@ -681,7 +715,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user1_name.setText(userName[0]);
 			user1_name.setVisible(true);
 
-			user2_label = new SetLabelImg("image1.png");
+			user2_label = new SetLabelImg("img/image1.png");
 			user2_label.setBounds(0, 0, 151, 173);
 			user2_label.setVisible(true);
 			user2_panel.add(user2_label);
@@ -691,7 +725,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user2_name.setVisible(true);
 
 
-			user3_label = new SetLabelImg("image1.png");
+			user3_label = new SetLabelImg("img/image1.png");
 			user3_label.setBounds(0, 0, 151, 173);
 			user3_label.setVisible(true);
 			user3_panel.add(user3_label);
@@ -704,7 +738,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user4_name.setVisible(false);
 
 		} else if (userCount == 4) {
-			user1_label = new SetLabelImg("image1.png");
+			user1_label = new SetLabelImg("img/image1.png");
 			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
 			user1_panel.add(user1_label);
@@ -713,7 +747,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user1_name.setText(userName[0]);
 			user1_name.setVisible(true);
 
-			user2_label = new SetLabelImg("image1.png");
+			user2_label = new SetLabelImg("img/image1.png");
 			user2_label.setBounds(0, 0, 151, 173);
 			user2_label.setVisible(true);
 			user2_panel.add(user2_label);
@@ -723,7 +757,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user2_name.setVisible(true);
 
 
-			user3_label = new SetLabelImg("image1.png");
+			user3_label = new SetLabelImg("img/image1.png");
 			user3_label.setBounds(0, 0, 151, 173);
 			user3_label.setVisible(true);
 			user3_panel.add(user3_label);
@@ -731,7 +765,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user3_name.setText(userName[2]);
 			user3_name.setVisible(true);
 
-			user4_label = new SetLabelImg("image1.png");
+			user4_label = new SetLabelImg("img/image1.png");
 			user4_label.setBounds(0, 0, 151, 173);
 			user4_label.setVisible(true);
 			user4_panel.add(user4_label);
