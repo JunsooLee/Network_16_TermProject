@@ -153,14 +153,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 		user3_name = new JLabel();
 		user4_name = new JLabel();
 
-		cc = new ImageIcon("img/question.png");
-		solutionLb = new JTextField(){
-			@Override
-			public void paintComponent(Graphics g) {
-				Dimension d = getSize();
-				g.drawImage(cc.getImage(), 0, 0, d.width, d.height, null);
-			}
-		};;
+		solutionLb = new JTextField();
 		solutionLb.setVisible(false);
 		solutionLb.setHorizontalAlignment(JLabel.CENTER);
 		solutionLb.setEditable(false);
