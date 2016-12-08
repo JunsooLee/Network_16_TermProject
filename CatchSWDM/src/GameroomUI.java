@@ -465,8 +465,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 									e.printStackTrace();
 								}
 								timeCount = stopwatch();
-								timerlb.setText(getTimerString(oldTime+10 -  ((int) System.currentTimeMillis() / 1000)));
-								if(timeCount > 10){
+								timerlb.setText(getTimerString(oldTime+60 -  ((int) System.currentTimeMillis() / 1000)));
+								if(timeCount > 60){
 									if(stakeHolder){
 										timerlb.setText("");
 										stakeHolder =false;
@@ -554,8 +554,8 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 									e.printStackTrace();
 								}
 								timeCount = stopwatch();
-								timerlb.setText(getTimerString(oldTime+10 -  ((int) System.currentTimeMillis() / 1000)));
-								if(timeCount > 10){
+								timerlb.setText(getTimerString(oldTime+60 -  ((int) System.currentTimeMillis() / 1000)));
+								if(timeCount > 60){
 									if(stakeHolder){
 										timerlb.setText("");
 										stakeHolder=false;
@@ -673,7 +673,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user4_name.setVisible(false);
 
 		} else if (userCount == 2) {
-			user1_label = new SetLabelImg("img/image1.png");
+			user1_label = new SetLabelImg("img/img2.png");
 			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
 			user1_panel.add(user1_label);
@@ -699,7 +699,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user4_name.setVisible(false);
 
 		} else if (userCount == 3) {
-			user1_label = new SetLabelImg("img/image1.png");
+			user1_label = new SetLabelImg("img/img2.png");
 			user1_label.setBounds(0, 0, 151, 173);
 			user1_label.setVisible(true);
 			user1_panel.add(user1_label);
@@ -718,7 +718,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user2_name.setVisible(true);
 
 
-			user3_label = new SetLabelImg("img/image1.png");
+			user3_label = new SetLabelImg("img/img4.png");
 			user3_label.setBounds(0, 0, 151, 173);
 			user3_label.setVisible(true);
 			user3_panel.add(user3_label);
@@ -740,7 +740,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user1_name.setText(userName[0]);
 			user1_name.setVisible(true);
 
-			user2_label = new SetLabelImg("img/image1.png");
+			user2_label = new SetLabelImg("img/img2.png");
 			user2_label.setBounds(0, 0, 151, 173);
 			user2_label.setVisible(true);
 			user2_panel.add(user2_label);
@@ -750,7 +750,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user2_name.setVisible(true);
 
 
-			user3_label = new SetLabelImg("img/image1.png");
+			user3_label = new SetLabelImg("img/img4.png");
 			user3_label.setBounds(0, 0, 151, 173);
 			user3_label.setVisible(true);
 			user3_panel.add(user3_label);
@@ -758,7 +758,7 @@ public class GameroomUI implements MouseMotionListener, MouseListener, ActionLis
 			user3_name.setText(userName[2]);
 			user3_name.setVisible(true);
 
-			user4_label = new SetLabelImg("img/image1.png");
+			user4_label = new SetLabelImg("img/img5.png");
 			user4_label.setBounds(0, 0, 151, 173);
 			user4_label.setVisible(true);
 			user4_panel.add(user4_label);

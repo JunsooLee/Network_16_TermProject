@@ -18,7 +18,7 @@ public class ProfileImagePanel extends JPanel{
 	}
 	@Override
 	protected void paintComponent(Graphics g){
-		g.setColor(Color.gray);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 200, 210);
 		g.drawImage(img, 5, 5,190, 205, this);
 	}

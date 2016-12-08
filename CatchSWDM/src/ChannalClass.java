@@ -62,7 +62,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		this.setSize(820, 652);
 
 		LeftPanel.setLayout(null);
-		LeftPanel.add(new ProfileImagePanel("img/image1.png"));
+		LeftPanel.add(new ProfileImagePanel("img/img4.png"));
 
 		LPimg = new ImageIcon("img/bg.jpg");
 		left_img_panel = new JPanel(){
@@ -129,8 +129,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		messageArea.setEditable(false);
 		// messageArea.setBounds(5, 170, 460, 130);
 		jpane2 = new JScrollPane(messageArea);
-		jpane2.setBounds(5, 5, 590, 170);// textarea¿« Ω∫≈©∑—πŸ∏¶ √ﬂ∞°«— ∞Õ¿«
-		// ªÁ¿Ã¡Ó∏¶ ¡ˆ¡§«—¥Ÿ.
+		jpane2.setBounds(5, 5, 590, 170);// textarea
 		BottomPanel.add(jpane2);
 		textField.setBounds(5, 178, 590, 19);
 		BottomPanel.add(textField);
@@ -422,7 +421,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 	}
 
 	private void run() throws IOException {
-		socket = new Socket("LocalHost", 9001);
+		socket = new Socket("192.168.43.160", 9001);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -521,10 +520,9 @@ public class ChannalClass extends JFrame implements ActionListener {
 		System.out.println(myName + " "+ room +" : "+ eachRoomUser[0] +" "+ eachRoomUser[1]+ " "+eachRoomUser[2] + " "+eachRoomUser[3]  + " "+eachRoomUser[4]  + " "+eachRoomUser[5]);
 
 		if(room == 0){
-			namecount++;
 			room1.setVisible(false);
 			room1.removeAll();
-			room1 = new RoomClass(eachRoomUser[0], "roomname"+namecount);
+			room1 = new RoomClass(eachRoomUser[0], "Mars");
 			room1.setBounds(5, 8, 290, 125);
 			CenterPanel.add(room1);
 			room1.repaint();
@@ -542,7 +540,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		else if(room == 1){
 			room2.setVisible(false);
 			room2.removeAll();
-			room2 = new RoomClass(eachRoomUser[1], "roomname2");
+			room2 = new RoomClass(eachRoomUser[1], "Ganymede");
 			room2.setBounds(305, 8, 290, 125);
 			CenterPanel.add(room2);
 			room2.repaint();
@@ -560,7 +558,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		else if(room == 2){
 			room3.setVisible(false);
 			room3.removeAll();
-			room3 = new RoomClass(eachRoomUser[2], "roomname2");
+			room3 = new RoomClass(eachRoomUser[2], "Galileo");
 			room3.setBounds(5, 138, 290, 125);
 			CenterPanel.add(room3);
 			room3.repaint();
@@ -580,7 +578,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		else if(room == 3){
 			room4.setVisible(false);
 			room4.removeAll();
-			room4 = new RoomClass(eachRoomUser[3], "roomname2");
+			room4 = new RoomClass(eachRoomUser[3], "Europa");
 			room4.setBounds(305, 138, 290, 125);
 			CenterPanel.add(room4);
 			room4.repaint();
@@ -598,7 +596,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		else if(room == 4){
 			room5.setVisible(false);
 			room5.removeAll();
-			room5 = new RoomClass(eachRoomUser[4], "roomname2");
+			room5 = new RoomClass(eachRoomUser[4], "Kepler");
 			room5.setBounds(5, 268, 290, 125);
 			CenterPanel.add(room5);
 			room5.repaint();
@@ -617,7 +615,7 @@ public class ChannalClass extends JFrame implements ActionListener {
 		else if(room == 5){
 			room6.setVisible(false);
 			room6.removeAll();
-			room6 = new RoomClass(eachRoomUser[5], "roomname2");
+			room6 = new RoomClass(eachRoomUser[5], "Callisto");
 			room6.setBounds(305, 268, 290, 125);
 			CenterPanel.add(room6);
 			room6.repaint();
