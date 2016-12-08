@@ -1,4 +1,16 @@
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -91,11 +103,11 @@ public class ResultClass  extends JFrame implements ActionListener{
 		u1 = new JLabel(u11 + " score: "+ user1);
 		u2 = new JLabel(u22 + " score: "+ user2);
 		u3 = new JLabel(u33 + " score: "+ user3);
-		u1.setFont(new Font("서울한강체 EB" ,10,10));
+		u1.setFont(new Font("고딕" ,100,30));
 		u1.setSize(100,40);
-		u2.setFont(new Font("서울한강체 EB",10,10));
+		u2.setFont(new Font("고딕",100,30));
 		u2.setSize(100,40);
-		u3.setFont(new Font("서울한강체 EB",10,10));
+		u3.setFont(new Font("고딕",100,30));
 		u3.setSize(100,40);
 
 		u1.setVisible(true);
@@ -112,7 +124,7 @@ public class ResultClass  extends JFrame implements ActionListener{
 
 		u1.setBounds(70, 110 , 300 ,50);
 		u2.setBounds(70, 175 , 300 ,50);
-		u3.setBounds(70, 240 , 300 ,50);
+		u3.setBounds(70, 235 , 300 ,50);
 
 		bg_panel.setBounds(0,0,500,500);
 		bg_panel.setVisible(true);
@@ -150,13 +162,13 @@ public class ResultClass  extends JFrame implements ActionListener{
 		u2 = new JLabel(u22+ " score: "+ user2);
 		u3 = new JLabel(u33+ " score: "+ user3);
 		u4 = new JLabel(u44+ " score: "+ user4);
-		u1.setFont(new Font("서울한강체 EB" ,10,10));
+		u1.setFont(new Font("고딕" ,100,30));
 		u1.setSize(100,40);
-		u2.setFont(new Font("서울한강체 EB",10,10));
+		u2.setFont(new Font("고딕",100,30));
 		u2.setSize(100,40);
-		u3.setFont(new Font("서울한강체 EB",10,10));
+		u3.setFont(new Font("고딕",100,30));
 		u3.setSize(100,40);
-		u4.setFont(new Font("서울한강체 EB",10,10));
+		u4.setFont(new Font("고딕",100,30));
 		u4.setSize(100,40);
 
 
@@ -177,8 +189,8 @@ public class ResultClass  extends JFrame implements ActionListener{
 
 		u1.setBounds(70, 110 , 300 ,50);
 		u2.setBounds(70, 175 , 300 ,50);
-		u3.setBounds(70, 240 , 300 ,50);
-		u4.setBounds(70,305,300,50);
+		u3.setBounds(70, 235 , 300 ,50);
+		u4.setBounds(70,295,300,50);
 
 		bg_panel.setBounds(0,0,500,500);
 		bg_panel.setVisible(true);
@@ -205,4 +217,5 @@ public class ResultClass  extends JFrame implements ActionListener{
 
 
 	}
+}	}
 }
